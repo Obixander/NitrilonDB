@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Nitrilon.DataAccess\Nitrilon.DataAccess.csproj" />
     <ProjectReference Include="..\Nitrilon.Entities\Nitrilon.Entities.csproj" />
   </ItemGroup>
 
