@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Nitrilon.Entities;
 
 namespace NitrilonDB.Controllers
 {
