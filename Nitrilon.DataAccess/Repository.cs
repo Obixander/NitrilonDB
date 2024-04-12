@@ -27,24 +27,31 @@ namespace Nitrilon.DataAccess
             SqlDataReader reader = command.ExecuteReader();
 
             //5 Rerieve data from the data reader: 
-            while(reader.Read())
+            try
             {
-                int id = Convert.ToInt32(reader["EventId"]);
-                DateTime date = Convert.ToDateTime(reader["Date"]);
-                string name = Convert.ToString(reader["Name"]);
-                int attendees = Convert.ToInt32(reader["Attendees"]);
-                string description = Convert.ToString(reader["Description"]);
-
-                Event e = new()
+                while (reader.Read())
                 {
-                    Id = id,
-                    Date = date,
-                    Name = name,
-                    Attendees = attendees,
-                    Description = description
-                };
+                    int id = Convert.ToInt32(reader["EventId"]);
+                    DateTime date = Convert.ToDateTime(reader["Date"]);
+                    string name = Convert.ToString(reader["Name"]);
+                    int attendees = Convert.ToInt32(reader["Attendees"]);
+                    string description = Convert.ToString(reader["Description"]);
 
-                events.Add(e);
+                    Event e = new()
+                    {
+                        Id = id,
+                        Date = date,
+                        Name = name,
+                        Attendees = attendees,
+                        Description = description
+                    };
+
+                    events.Add(e);
+                }
+            }
+            catch
+            {
+                return events;
             }
 
             //6. Close the connection:
@@ -65,15 +72,15 @@ namespace Nitrilon.DataAccess
             SqlCommand command = new SqlCommand(sql, connection);
 
             //3. Open the connection:
-            
-                connection.Open();
-                //TODO: Fiure out how to get the new id created in the table.
-                //4. Execute4 the insert Command
-                command.ExecuteNonQuery();
 
-                //5. Close the Connection when it is not needed anymore.
-                connection.Close();
-            
+            connection.Open();
+            //TODO: Fiure out how to get the new id created in the table.
+            //4. Execute4 the insert Command
+            command.ExecuteNonQuery();
+
+            //5. Close the Connection when it is not needed anymore.
+            connection.Close();
+
             return -1;
         }
     }
