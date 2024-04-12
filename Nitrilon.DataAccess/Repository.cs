@@ -7,6 +7,7 @@ namespace Nitrilon.DataAccess
     {
         private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NitrilonDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
+         //Methods for EventController
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
@@ -62,9 +63,12 @@ namespace Nitrilon.DataAccess
 
         public int Save(Event newEvent)
         {
+            int newId = 0;
+
             //TODO: handle attendees when the event is not yet over.
             //dont forget to format a date as 'yyyy-MM-dd'
-            string sql = $"INSERT INTO events (Date, Name,Attendees, Description) VALUES('{newEvent.Date.ToString("yyyy-MM-dd")}', '{newEvent.Name}',{newEvent.Attendees}, '{newEvent.Description}')";
+            string sql = $"INSERT INTO events (Date, Name,Attendees, Description) VALUES('{newEvent.Date.ToString("yyyy-MM-dd")}', '{newEvent.Name}',{newEvent.Attendees}, '{newEvent.Description}'); SELECT SCOPE_IDENTITY();";
+           
             //1: make a sqlConnection Object:
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -74,14 +78,78 @@ namespace Nitrilon.DataAccess
             //3. Open the connection:
 
             connection.Open();
-            //TODO: Fiure out how to get the new id created in the table.
-            //4. Execute4 the insert Command
+            
+            //4. Execute the insert Command and get the newly created id for the row
+            //command.ExecuteNonQuery();
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+            while (sqlDataReader.Read())
+            {
+                newId = (int)sqlDataReader.GetDecimal(0);
+            }
+
+            //5. Close the Connection when it is not needed anymore.
+            connection.Close();
+
+            return newId;
+        }
+
+
+        //This Method is used to Delete an Event from the Database based on "EventId"
+        public string Delete(int EventId)
+        {
+            try
+            {
+                string sql = $"DELETE FROM Events WHERE EventId = {EventId}";
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+                connection.Open();
+
+                //4. Execute the delete Command
+                command.ExecuteNonQuery();
+
+                //5. Close the Connection when it is not needed anymore.
+                connection.Close();
+
+                return "Deleted";
+            }
+            catch //TODO: Add Better error Handling
+            {
+                return "Process Failed";
+            }
+        }
+
+        public string UpdateEvent(Event Event, int id)
+        {
+            string sql = $"UPDATE Events " +
+                           $"SET Date = '{Event.Date.ToString("yyyy-MM-dd")}', " +
+                           $"Name = '{Event.Name}', " +
+                           $"Attendees = {Event.Attendees}, " +
+                           $"Description = '{Event.Description}'" +
+                           $" WHERE EventId = {id}";
+
+            //1: make a sqlConnection Object:
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //2. Make a SqlCommand object:
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //3. Open the connection:
+            connection.Open();
+
+            //4. Execute the delete Command
             command.ExecuteNonQuery();
 
             //5. Close the Connection when it is not needed anymore.
             connection.Close();
 
-            return -1;
+            return "Success";
         }
+
+
     }
 }

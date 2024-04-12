@@ -12,12 +12,23 @@ namespace NitrilonDB.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok();
+            Repository repo = new();
+            return Ok(repo.Delete(id));
         }
 
-        [HttpPut]
-        public IActionResult Put(Event eventToUpdate)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Event eventToUpdate)
         {
+
+            Repository repo = new();
+            try
+            {
+                repo.UpdateEvent(eventToUpdate, id);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
             return Ok(eventToUpdate);
         }
@@ -34,16 +45,17 @@ namespace NitrilonDB.Controllers
         [HttpGet("{id}")]
         public ActionResult<Event> Get(int id)
         {
-            Event e = null;
-            if (id == 3)
+            Repository repo = new();
+            List<Event> e = repo.GetAllEvents();
+            foreach (Event ev in e)
             {
-                e = new Event { Id = 3 };
-            }
-            else
-            {
-                return NotFound($"The requested event tih id {id} was not found");
-            }
-            return e;
+                if (ev.Id == id)
+                {
+                    return Ok(ev);
+                }
+            }            
+                return NotFound($"The requested event the id {id} was not found");
+         
         }
         [HttpPost]
         public IActionResult Add(Event newEvent)
@@ -52,8 +64,7 @@ namespace NitrilonDB.Controllers
             {
                 Repository repo = new();
                 int CreatedId = repo.Save(newEvent);
-
-                return Ok();
+                return Ok(CreatedId);
             }
             catch (Exception e)
             {
