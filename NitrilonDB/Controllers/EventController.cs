@@ -11,28 +11,27 @@ namespace NitrilonDB.Controllers
     {
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
-        {            
+        {
             return Ok();
         }
 
         [HttpPut]
         public IActionResult Put(Event eventToUpdate)
         {
-            
+
             return Ok(eventToUpdate);
         }
 
+        //Gets all Events from the database
         [HttpGet]
         public IEnumerable<Event> GetAll()
         {
-            List<Event> events = new()
-            {
-                new() {Id=1}, new() {Id=2}
-            };
+            Repository repo = new();
+            List<Event> events = repo.GetAllEvents();
             return events;
         }
 
-        [HttpGet("{id}")]        
+        [HttpGet("{id}")]
         public ActionResult<Event> Get(int id)
         {
             Event e = null;
@@ -60,7 +59,7 @@ namespace NitrilonDB.Controllers
             {
                 return StatusCode(500);
             }
-        } 
+        }
 
 
     }

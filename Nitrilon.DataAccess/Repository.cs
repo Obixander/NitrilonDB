@@ -7,6 +7,52 @@ namespace Nitrilon.DataAccess
     {
         private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NitrilonDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
+        public List<Event> GetAllEvents()
+        {
+            List<Event> events = new List<Event>();
+
+            string sql = $"SELECT * FROM Events";
+
+            //1: make a sqlConnection Object:
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //2. Make a SqlCommand object:
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //3. Open the connection:
+
+            connection.Open();
+
+            //4.Execute query:
+            SqlDataReader reader = command.ExecuteReader();
+
+            //5 Rerieve data from the data reader: 
+            while(reader.Read())
+            {
+                int id = Convert.ToInt32(reader["EventId"]);
+                DateTime date = Convert.ToDateTime(reader["Date"]);
+                string name = Convert.ToString(reader["Name"]);
+                int attendees = Convert.ToInt32(reader["Attendees"]);
+                string description = Convert.ToString(reader["Description"]);
+
+                Event e = new()
+                {
+                    Id = id,
+                    Date = date,
+                    Name = name,
+                    Attendees = attendees,
+                    Description = description
+                };
+
+                events.Add(e);
+            }
+
+            //6. Close the connection:
+            connection.Close();
+
+            return events;
+        }
+
         public int Save(Event newEvent)
         {
             //TODO: handle attendees when the event is not yet over.
