@@ -1,1 +1,29 @@
-main 
+*{
+   padding: 0;
+   margin: 0;
+}
+body {
+   background-color: #333;
+}
+
+main {
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.Container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10rem;
+}
+
+h1 {
+   color: #fff;
+   font-size: 3.5rem;
+   padding-bottom: 1rem;
+}
+
+

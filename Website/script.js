@@ -77,7 +77,7 @@ function AddRating(id) {
          return response.text();
       })
       .then(data => {
-         Div.textContent = data;
+        
       })
       .catch(error => {
          console.error('Error:', error);
