@@ -35,7 +35,7 @@ namespace NitrilonDB.Controllers
 
         //Gets all Events from the database
         [HttpGet]
-        public IEnumerable<Event> GetAll()
+        public IEnumerable<Event> GetAllRatings()
         {
             Repository repo = new();
             List<Event> events = repo.GetAllEvents();
@@ -57,6 +57,7 @@ namespace NitrilonDB.Controllers
                 return NotFound($"The requested event the id {id} was not found");
          
         }
+
         [HttpPost]
         public IActionResult Add(Event newEvent)
         {

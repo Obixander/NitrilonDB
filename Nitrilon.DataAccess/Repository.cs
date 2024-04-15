@@ -7,7 +7,94 @@ namespace Nitrilon.DataAccess
     {
         private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NitrilonDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
-         //Methods for EventController
+
+        //Methods for EventRatingController
+        public List<EventRating> GetAllRatings()
+        {
+            List<EventRating> eventRatings = new();
+
+            string sql = $"SELECT * FROM EventRatings";
+
+            //1: make a sqlConnection Object:
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //2. Make a SqlCommand object:
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //3. Open the connection:
+
+            connection.Open();
+
+            //4.Execute query:
+            SqlDataReader reader = command.ExecuteReader();
+
+            //5 Rerieve data from the data reader: 
+            try
+            {
+                while (reader.Read())
+                {
+                    
+                    int EventRatingId = Convert.ToInt32(reader["EventRatingId"]);
+                    int EventId = Convert.ToInt32(reader["EventId"]);
+                    int RatingId = Convert.ToInt32(reader["RatingId"]);
+
+                    eventRatings.Add(new()
+                    {
+                        EventRatingId = EventRatingId,
+                        EventId = EventId,
+                        RatingId = RatingId
+                    });
+
+                }
+            }
+            catch
+            { //Change This later
+                return eventRatings;
+            }
+
+            //6. Close the connection:
+            connection.Close();
+
+            return eventRatings;
+        }
+
+        public int SaveRating(EventRating newRating)
+        {
+            int newId = 0;
+            if (newRating.EventId <= 0)
+            {
+                return -1;
+            }
+            //TODO: handle attendees when the event is not yet over.
+            //dont forget to format a date as 'yyyy-MM-dd'
+            string sql = $"INSERT INTO EventRatings (EventId, RatingID) VALUES({newRating.EventId}, {newRating.RatingId}); SELECT SCOPE_IDENTITY();";
+
+            //1: make a sqlConnection Object:
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //2. Make a SqlCommand object:
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //3. Open the connection:
+
+            connection.Open();
+
+            //4. Execute the insert Command and get the newly created id for the row
+            //command.ExecuteNonQuery();
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+            while (sqlDataReader.Read())
+            {
+                newId = (int)sqlDataReader.GetDecimal(0);
+            }
+
+            //5. Close the Connection when it is not needed anymore.
+            connection.Close();
+
+            return newId;
+        }
+
+
+        //Methods for EventController
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();
