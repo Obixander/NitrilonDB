@@ -46,7 +46,7 @@ namespace NitrilonDB.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500);
+                return NotFound(e);
             }
         }
 

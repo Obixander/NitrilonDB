@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Nitrilon.DataAccess;
 using Nitrilon.Entities;
 
@@ -12,22 +13,31 @@ namespace NitrilonDB.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Repository repo = new();
-            return Ok(repo.Delete(id));
+            try
+            {
+                Repository repo = new();
+                return Ok(repo.Delete(id));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
+            
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Event eventToUpdate)
         {
 
-            Repository repo = new();
+            
             try
             {
+                Repository repo = new();
                 repo.UpdateEvent(eventToUpdate, id);
             }
-            catch
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return NotFound(e);
             }
 
             return Ok(eventToUpdate);
@@ -37,9 +47,18 @@ namespace NitrilonDB.Controllers
         [HttpGet]
         public IEnumerable<Event> GetAllRatings()
         {
-            Repository repo = new();
-            List<Event> events = repo.GetAllEvents();
-            return events;
+            try
+            {
+                Repository repo = new();
+                List<Event> events = repo.GetAllEvents();
+                return events;
+            }
+            catch 
+            {
+                //change this later
+                List<Event> events = new();
+                return events;
+            }
         }
 
         [HttpGet("{id}")]
@@ -69,7 +88,7 @@ namespace NitrilonDB.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500);
+                return NotFound(e);
             }
         }
 
