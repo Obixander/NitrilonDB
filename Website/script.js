@@ -30,7 +30,7 @@ function AddRating(id) {
          'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-         //Change this EventId later
+         //Add A method for to change the EventId
          "EventId": "2",
 
          "RatingID": id,
