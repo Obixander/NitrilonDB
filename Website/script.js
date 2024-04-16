@@ -1,40 +1,8 @@
 let btn1 = document.querySelector('#btn1');
 let btn2 = document.querySelector('#btn2');
 let btn3 = document.querySelector('#btn3');
-let Div = document.querySelector('#Events');
+//this is used for the timer in the overlay
 let Cooldown = 0;
-
-
-// console.log("button clicked")
-// btn.addEventListener('click', function (event) {
-//   event.preventDefault();
-//    console.log("button clicked")
-//   const requestOptions = {
-//     method: 'get',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//   };
-
-//   const test = fetch(apiUrl, requestOptions)
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
-//       return response.text();
-//     })
-//     .then(data => {      
-//       Div.textContent = data;
-//     })
-//     .catch(error => {
-//       console.error('Error:', error);
-//     });
-
-//     console.log(test);
-
-
-// });
-
 
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
@@ -54,7 +22,7 @@ btn3.addEventListener('click', function (OnClick) {
    let id = 3;
    AddRating(id);
 });
-
+//this is the method that posts the rating to the database
 function AddRating(id) {
    const requestOptions = {
       method: 'post',
@@ -68,7 +36,7 @@ function AddRating(id) {
          "RatingID": id,
       })
    };
-
+   
    fetch(EventRatingURL, requestOptions)
       .then(response => {
          if (!response.ok) {
@@ -82,43 +50,41 @@ function AddRating(id) {
       .catch(error => {
          console.error('Error:', error);
       });
-
-
    AddOverlay();
-
-
-
 }
-
+//This is used to create the overlay so the user gets some feedback to their rating
 function AddOverlay() {
+   //Cooldown for the overlay to pervent spam
    const Timer = Date.now();
-   
-   if (Timer > Cooldown)
-  {   
-   let Overlay = document.createElement('div');
-   Overlay.classList.toggle('overlay');
 
-   let text = document.createElement("h1")
-   text.classList.toggle('text');
-   text.textContent = "Tak for dit Feedback!";
-   Overlay.append(text);
+   if (Timer > Cooldown) {
+      let Overlay = document.createElement('div');
+      Overlay.classList.toggle('overlay');
+      
+      let text = document.createElement("h1")
+      text.classList.toggle('text');
+      text.textContent = "Tak for dit Feedback!";
+      Overlay.append(text);
 
-   let Body = document.querySelector("body")
-   Body.append(Overlay);
+      let Body = document.querySelector("body")
+      Body.append(Overlay);
 
-   
+      setTimeout(function () {
+         Overlay.remove()
+         text.remove()
+      }, 5000);
 
-   setTimeout(function () {
-      Overlay.remove()
-      text.remove()
-   }, 5000);
-   Cooldown = Date.now() ;
-   Cooldown = Math.floor(Cooldown  + 5000);
-   console.log(Cooldown)
-   console.log(Math.floor(Timer - Cooldown))
+      //Set the cooldown to the current time + 5 seconds
+      Cooldown = Date.now();
+      Cooldown = Math.floor(Cooldown + 5000);
+
+      //Used for debuging
+      console.log(Cooldown)
+      console.log(Math.floor(Timer - Cooldown))
    }
+   //If the cooldown is not over, do nothing
    else {
-
+      console.log("Wait Please")
    }
 
 }
