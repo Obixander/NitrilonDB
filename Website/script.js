@@ -7,6 +7,7 @@ let Cooldown = 0;
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
 const EventRatingURL = 'https://localhost:7239/api/EventRating';
+
 btn1.addEventListener('click', function (OnClick) {
    OnClick.preventDefault();
    let id = 1;
@@ -22,6 +23,48 @@ btn3.addEventListener('click', function (OnClick) {
    let id = 3;
    AddRating(id);
 });
+
+//this is used to get all Events from the database that has the same date or later
+GetEvents()
+
+function GetEvents() {
+   let Year = new Date().getFullYear()
+   let Month = new Date().getMonth()
+   let Day = new Date().getDate() 
+   
+   console.log(Year)
+   
+   const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents?year=${2026}&month=${Month}&day=${Day}&dayOfWeek=0`;
+
+   const requestOptions = 
+   {
+      method: 'get',
+      headers: {
+         'Content-Type': 'application/json'
+      },      
+   }
+
+
+
+   fetch(GetEventUrl, requestOptions)
+      .then(response => {
+         if (!response.ok) {
+            throw new Error('Network response was not ok');
+         }
+         return response.text();
+      })
+      .then(data => {
+         console.log(data)
+      })
+      .catch(error => {
+         console.error('Error:', error);
+      });
+}
+
+
+
+
+
 //this is the method that posts the rating to the database
 function AddRating(id) {
    const requestOptions = {
@@ -35,8 +78,10 @@ function AddRating(id) {
 
          "RatingID": id,
       })
-   };
+   };  
+
    
+
    fetch(EventRatingURL, requestOptions)
       .then(response => {
          if (!response.ok) {

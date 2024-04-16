@@ -52,3 +52,13 @@ h1 {
 .Remove {
    display: none;
 }
+
+.Rating-Container {
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+}
+
+#Hidden {
+   display: none;
+}

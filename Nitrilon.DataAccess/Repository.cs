@@ -95,6 +95,60 @@ namespace Nitrilon.DataAccess
 
 
         //Methods for EventController
+        
+        public List<Event> GetActiveOrFutureEvents(DateOnly date) 
+        {
+            List<Event> events = new List<Event>();
+            string sql = $"SELECT * FROM Events WHERE Date = '{date.ToString("yyyy-MM-dd")}' OR Date > '{date.ToString("yyyy-MM-dd")}' ";            
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //2. Make a SqlCommand object:
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //3. Open the connection:
+
+            connection.Open();
+
+            //4.Execute query:
+            SqlDataReader reader = command.ExecuteReader();
+
+            //5 Rerieve data from the data reader: 
+            try
+            {
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["EventId"]);
+                    DateTime Date = Convert.ToDateTime(reader["Date"]);
+                    string name = Convert.ToString(reader["Name"]);
+                    int attendees = Convert.ToInt32(reader["Attendees"]);
+                    string description = Convert.ToString(reader["Description"]);
+
+                    Event e = new()
+                    {
+                        Id = id,
+                        Date = Date,
+                        Name = name,
+                        Attendees = attendees,
+                        Description = description
+                    };
+
+                    events.Add(e);
+                }
+            }
+            catch
+            {
+                return events;
+            }
+
+            //6. Close the connection:
+            connection.Close();
+
+            return events;
+
+
+        }
+
+
         public List<Event> GetAllEvents()
         {
             List<Event> events = new List<Event>();

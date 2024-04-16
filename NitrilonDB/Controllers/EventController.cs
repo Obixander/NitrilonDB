@@ -12,6 +12,17 @@ namespace NitrilonDB.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
+        //This no Working get Dads help PLEASE
+        //use Datetime Maybe?
+        [HttpGet, Route("{date}")]
+        public DateOnly GetActiveOrFutureEvents(DateOnly date)
+        {
+            Repository repo = new();
+            List<Event> events = repo.GetActiveOrFutureEvents(date);
+            return date;
+        }
+
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -63,21 +74,21 @@ namespace NitrilonDB.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Event> Get(int id)
-        {
-            Repository repo = new();
-            List<Event> e = repo.GetAllEvents();
-            foreach (Event ev in e)
-            {
-                if (ev.Id == id)
-                {
-                    return Ok(ev);
-                }
-            }            
-                return NotFound($"The requested event the id {id} was not found");
+        //[HttpGet("{id}")]
+        //public ActionResult<Event> Get(int id)
+        //{
+        //    Repository repo = new();
+        //    List<Event> e = repo.GetAllEvents();
+        //    foreach (Event ev in e)
+        //    {
+        //        if (ev.Id == id)
+        //        {
+        //            return Ok(ev);
+        //        }
+        //    }            
+        //        return NotFound($"The requested event the id {id} was not found");
          
-        }
+        //}
 
         [HttpPost]
         public IActionResult Add(Event newEvent)
