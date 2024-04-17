@@ -14,12 +14,24 @@ namespace NitrilonDB.Controllers
     {
         //This no Working get Dads help PLEASE
         //use Datetime Maybe?
-        [HttpGet, Route("{date}")]
-        public DateOnly GetActiveOrFutureEvents(DateOnly date)
+
+        //insted of getting the date in the javascript get it in the api or repository? 
+        [HttpGet]
+        [Route("GetActiveOrFutureEvents")]
+        public IActionResult GetActiveOrFutureEvents()
         {
-            Repository repo = new();
-            List<Event> events = repo.GetActiveOrFutureEvents(date);
-            return date;
+            try
+            {
+                Repository repo = new();
+                string Return = repo.GetActiveOrFutureEvents();
+                return Ok(Return);
+            }
+            catch (ArgumentException e) 
+            {
+                Console.WriteLine(e.Message);
+                return NotFound(e);
+            }
+            
         }
 
 
@@ -40,9 +52,7 @@ namespace NitrilonDB.Controllers
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Event eventToUpdate)
-        {
-
-            
+        {            
             try
             {
                 Repository repo = new();
@@ -58,19 +68,18 @@ namespace NitrilonDB.Controllers
 
         //Gets all Events from the database
         [HttpGet]
-        public IEnumerable<Event> GetAllRatings()
+        public ActionResult<Event> GetAllRatings()
         {
             try
             {
                 Repository repo = new();
                 List<Event> events = repo.GetAllEvents();
-                return events;
+                return Ok(events);
             }
-            catch 
+            catch (ArgumentException e)
             {
-                //change this later
-                List<Event> events = new();
-                return events;
+                
+                return NotFound(e);
             }
         }
 

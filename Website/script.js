@@ -1,9 +1,15 @@
+//inputs for the selection of events 
+let EventList = document.querySelector('#Events')
+let EventSelect = document.querySelector('#Select')
+
+//Inputs for the smilies
 let btn1 = document.querySelector('#btn1');
 let btn2 = document.querySelector('#btn2');
 let btn3 = document.querySelector('#btn3');
+let Testing = document.querySelector('.Testing')
 //this is used for the timer in the overlay
 let Cooldown = 0;
-
+let EventId = 0;
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
 const EventRatingURL = 'https://localhost:7239/api/EventRating';
@@ -23,21 +29,35 @@ btn3.addEventListener('click', function (OnClick) {
    let id = 3;
    AddRating(id);
 });
-
+EventSelect.addEventListener('click', function(OnClick) {
+   //this could also be done better but it works for now
+   OnClick.preventDefault();
+   let EventChoice = EventList.value.split(": ");
+   EventId = EventChoice[0];
+   Setup()
+   
+   console.log(EventId)
+});
 //this is used to get all Events from the database that has the same date or later
+
+
+function Setup() 
+{
+   let SelectContainer = document.querySelector('.Select-Container')
+   let RatingContainer = document.querySelector('.Rating-Container')
+   SelectContainer.setAttribute('id', "Hidden")
+
+   RatingContainer.removeAttribute("id","Hidden")
+}
+
+
 GetEvents()
 
-function GetEvents() {
 
-   //Debugging
-   let Year = new Date().getFullYear()
-   let Month = new Date().getMonth()
-   let Day = new Date().getDate() 
-   
-   console.log(Year)
-   
-   const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents?year=${2026}&month=${Month}&day=${Day}&dayOfWeek=0`;
 
+function GetEvents() { 
+   const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents`;
+   
    const requestOptions = 
    {
       method: 'get',
@@ -45,25 +65,34 @@ function GetEvents() {
          'Content-Type': 'application/json'
       },      
    }
-
-
-
+   
+   
+   
    fetch(GetEventUrl, requestOptions)
-      .then(response => {
-         if (!response.ok) {
-            throw new Error('Network response was not ok');
-         }
-         return response.text();
-      })
-      .then(data => {
-         console.log(data)
-      })
-      .catch(error => {
-         console.error('Error:', error);
-      });
+   .then(response => {
+      if (!response.ok) {
+         throw new Error('Network response was not ok');
+      }
+      return response.text();
+   })
+   .then(data => {
+      console.log(data)
+      let Events = data.split("|")
+      console.log(Events)
+      Events.forEach(element => {
+         if (element != " " ) {  
+         let Event = document.createElement('option');
+         Event.textContent = element;
+         EventList.append(Event);
+      }
+      }); 
+      
+   })
+   .catch(error => {
+      console.error('Error:', error);
+   });  
+
 }
-
-
 
 
 
@@ -76,11 +105,12 @@ function AddRating(id) {
       },
       body: JSON.stringify({
          //Add A method for to change the EventId
-         "EventId": "2",
+         "EventId": EventId,
 
          "RatingID": id,
       })
    };  
+   console.log(EventId);
 
    
 
@@ -105,20 +135,15 @@ function AddOverlay() {
    const Timer = Date.now();
 
    if (Timer > Cooldown) {
-      let Overlay = document.createElement('div');
-      Overlay.classList.toggle('overlay');
+     
       
-      let text = document.createElement("h1")
-      text.classList.toggle('text');
+      let text = document.querySelector('.Title');
+      let oldText = text.textContent;
       text.textContent = "Tak for dit Feedback!";
-      Overlay.append(text);
-
-      let Body = document.querySelector("body")
-      Body.append(Overlay);
 
       setTimeout(function () {
-         Overlay.remove()
-         text.remove()
+         console.log(oldText)
+         text.textContent = oldText;
       }, 5000);
 
       //Set the cooldown to the current time + 5 seconds

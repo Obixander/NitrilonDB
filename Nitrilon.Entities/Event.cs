@@ -16,6 +16,10 @@
             } 
             set
             {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Id cannot be or be below 0");
+                }
                 id = value;
             }
         }
@@ -47,6 +51,7 @@
                 {
                     throw new ArgumentException("Name cannot be empty");
                 }
+                name = value;
             }
         }
         public int Attendees 
