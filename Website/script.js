@@ -28,6 +28,8 @@ btn3.addEventListener('click', function (OnClick) {
 GetEvents()
 
 function GetEvents() {
+
+   //Debugging
    let Year = new Date().getFullYear()
    let Month = new Date().getMonth()
    let Day = new Date().getDate() 
