@@ -23,8 +23,8 @@ namespace NitrilonDB.Controllers
             try
             {
                 Repository repo = new();
-                string Return = repo.GetActiveOrFutureEvents();
-                return Ok(Return);
+                List<Event> events = repo.GetActiveOrFutureEvents();
+                return Ok(events);
             }
             catch (ArgumentException e) 
             {

@@ -8,6 +8,9 @@ let Testing = document.querySelector('.Testing')
 //this is used for the timer in the overlay
 let Cooldown = 0;
 let EventId = 0;
+//this is a test
+let EventObject;
+
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
 const EventRatingURL = 'https://localhost:7239/api/EventRating';
@@ -30,78 +33,70 @@ btn3.addEventListener('click', function (OnClick) {
 
 //this is used to get all Events from the database that has the same date or later
 
-
-function Setup() 
-{
+function Setup() {
    let SelectContainer = document.querySelector('.Select-Container')
    let RatingContainer = document.querySelector('.Rating-Container')
    SelectContainer.setAttribute('id', "Hidden")
 
-   RatingContainer.removeAttribute("id","Hidden")
+   RatingContainer.removeAttribute("id", "Hidden")
 }
-
 
 GetEvents()
 
-
-
-function GetEvents() { 
+function GetEvents() {
    const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents`;
-   
-   const requestOptions = 
+
+   const requestOptions =
    {
       method: 'get',
       headers: {
          'Content-Type': 'application/json'
-      },      
+      },
    }
-   
-   
-   
+
+
+   //stringify the data to be sent
    fetch(GetEventUrl, requestOptions)
-   .then(response => {
-      if (!response.ok) {
-         throw new Error('Network response was not ok');
-      }
-      return response.text();
-   })
-   .then(data => {
-      console.log(data)
-      let Events = data.split("|")
-      Events = Events.slice(0, -1)
-      console.log(Events)
-      Events.forEach(element => {
-         if (element != " " ) {  
-         let EventCard = document.createElement('div');
-         let text = document.createElement('p')
-         EventCard.classList.add("EventCard")
-         text.textContent = element;
-         EventList.appendChild(EventCard);
-         EventCard.appendChild(text);
-         }         
-      }); 
-      let EventCard = document.querySelectorAll('.EventCard')
-      EventCard.forEach(EventCard => {
-         EventCard.addEventListener('click', function(OnClick) {
-            //this could also be done better but it works for now
-            OnClick.preventDefault();
-            let EventChoice = EventCard.textContent.split(": ");
-            EventId = EventChoice[0];
-            Setup()
+      .then(response => {
+         if (!response.ok) {
+            throw new Error('Network response was not ok');
+         }
+         return response.text();
+      })
+      .then(data => {
+         let Events = JSON.parse(data);
+         console.log(Events)
 
-            console.log(EventId)
+         Events.forEach(element => {
+            if (element != " ") {
+               let EventCard = document.createElement('div');
+               let text = document.createElement('p')
+               EventCard.classList.add("EventCard")
+               const formattedDate = new Date(element.date).toLocaleDateString();
+               text.textContent = element.name + ": " + formattedDate;
+               EventList.appendChild(EventCard);
+               EventCard.appendChild(text);
+
+               //works
+               EventCard.addEventListener('click', function (OnClick) {
+                  OnClick.preventDefault();
+
+                  EventId = element.id;
+                  Setup()
+                  console.log(EventId)
+               });
+
+            }
          });
-      });
+         let EventCard = document.querySelectorAll('.EventCard')
          
-      
-   })
-   .catch(error => {
-      console.error('Error:', error);
-   });  
-
+         //maybe need this later idk
+         EventObject = Events
+      })
+      .catch(error => {
+         console.error('Error:', error);
+      });
 }
-
-
 
 //this is the method that posts the rating to the database
 function AddRating(id) {
@@ -116,10 +111,10 @@ function AddRating(id) {
 
          "RatingID": id,
       })
-   };  
+   };
    console.log(EventId);
 
-   
+
 
    fetch(EventRatingURL, requestOptions)
       .then(response => {
@@ -142,8 +137,8 @@ function AddOverlay() {
    const Timer = Date.now();
 
    if (Timer > Cooldown) {
-     
-      
+
+
       let text = document.querySelector('.Title');
       let oldText = text.textContent;
       text.textContent = "Tak for dit Feedback!";

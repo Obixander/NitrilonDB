@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Nitrilon.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Nitrilon.DataAccess
 {
@@ -108,13 +109,16 @@ namespace Nitrilon.DataAccess
 
         //Methods for EventController
 
-        public string GetActiveOrFutureEvents()
+        public List<Event> GetActiveOrFutureEvents()
         {
             List<Event> events = new List<Event>();
             try
             {
                 DateTime date = DateTime.UtcNow;
+
+                //temp
                 string sql = $"SELECT * FROM Events WHERE Date >= '{date.ToString("yyyy-MM-dd")}'";
+                
                 SqlConnection connection = new SqlConnection(connectionString);
 
                 //2. Make a SqlCommand object:
@@ -139,7 +143,7 @@ namespace Nitrilon.DataAccess
 
                     try
                     {
-                        Event e = new Event(id, date, name, attendees, description);
+                        Event e = new Event(id, Date, name, attendees, description);
                         events.Add(e);
                     }
                     catch (ArgumentException Ex)
@@ -153,16 +157,16 @@ namespace Nitrilon.DataAccess
                 connection.Close();
 
                 //Change this later please
-                string ReturnValues = "";
-                for (int i = 0; i < events.Count; i++)
-                {
-                    ReturnValues += events[i].Id.ToString() + ": ";
-                    ReturnValues += events[i].Name;
-                    ReturnValues += " (" + events[i].Date.ToString("yyyy-MM-dd");
-                    ReturnValues += ") | ";
-                }
+                //string ReturnValues = "";
+                //for (int i = 0; i < events.Count; i++)
+                //{
+                //    ReturnValues += events[i].Id.ToString() + ": ";
+                //    ReturnValues += events[i].Name;
+                //    ReturnValues += " (" + events[i].Date.ToString("yyyy-MM-dd");
+                //    ReturnValues += ") | ";
+                //}
 
-                return ReturnValues;
+                return events;
             }
             catch (ArgumentException e)
             {
