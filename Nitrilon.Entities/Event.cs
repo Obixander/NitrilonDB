@@ -8,6 +8,15 @@
         private int attendees;
         private string description;
 
+        public Event(int id, DateTime date, string name, int attendees, string description)
+        {
+            Id = id;
+            Date = date;
+            Name = name;
+            Attendees = attendees;
+            Description = description;
+        }
+
         public int Id 
         { 
             get
@@ -16,7 +25,7 @@
             } 
             set
             {
-                if (value <= 0)
+                if (value < 0)
                 {
                     throw new ArgumentException("Id cannot be or be below 0");
                 }
@@ -31,11 +40,7 @@
                 return date;
             }
             set
-            {
-                if (String.IsNullOrWhiteSpace(value.ToString()))
-                {
-                    throw new ArgumentException("Date cannot include a Space");
-                }
+            {                
                 date = value;
             }
         }
@@ -66,6 +71,7 @@
                 {
                     throw new ArgumentException("Attendees cannot be negative");
                 }
+                attendees = value;
             }
         }
         public string Description 

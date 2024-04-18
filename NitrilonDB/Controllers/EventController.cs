@@ -82,7 +82,7 @@ namespace NitrilonDB.Controllers
                 return NotFound(e);
             }
         }
-
+        //why is this here?
         //[HttpGet("{id}")]
         //public ActionResult<Event> Get(int id)
         //{
