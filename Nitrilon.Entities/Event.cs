@@ -18,7 +18,6 @@
             Description = description;
             //check if ratings is null and throws exception if true
             this.ratings = ratings ?? throw new ArgumentNullException(nameof(ratings));
-
         }
 
         public int Id 
@@ -36,7 +35,6 @@
                 id = value;
             }
         }
-
         public DateTime Date 
         { 
             get
@@ -90,6 +88,7 @@
             }
         }
     
+        //this method is used for adding new ratings to the list<Rating> ratings
         public void Add(Rating rating)
         {
             if (rating == null)
@@ -98,7 +97,7 @@
             }
             ratings.Add(rating);
         }
-
+        //This method calculates the average rating of the event
         public double GetRatingAverage()
         {
             if (ratings == null)
