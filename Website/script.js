@@ -1,7 +1,5 @@
 //inputs for the selection of events 
-let EventList = document.querySelector('#Events')
-let EventSelect = document.querySelector('#Select')
-
+let EventList = document.querySelector('.Card-Container')
 //Inputs for the smilies
 let btn1 = document.querySelector('#btn1');
 let btn2 = document.querySelector('#btn2');
@@ -29,15 +27,7 @@ btn3.addEventListener('click', function (OnClick) {
    let id = 3;
    AddRating(id);
 });
-EventSelect.addEventListener('click', function(OnClick) {
-   //this could also be done better but it works for now
-   OnClick.preventDefault();
-   let EventChoice = EventList.value.split(": ");
-   EventId = EventChoice[0];
-   Setup()
-   
-   console.log(EventId)
-});
+
 //this is used to get all Events from the database that has the same date or later
 
 
@@ -78,14 +68,31 @@ function GetEvents() {
    .then(data => {
       console.log(data)
       let Events = data.split("|")
+      Events = Events.slice(0, -1)
       console.log(Events)
       Events.forEach(element => {
          if (element != " " ) {  
-         let Event = document.createElement('option');
-         Event.textContent = element;
-         EventList.append(Event);
-      }
+         let EventCard = document.createElement('div');
+         let text = document.createElement('p')
+         EventCard.classList.add("EventCard")
+         text.textContent = element;
+         EventList.appendChild(EventCard);
+         EventCard.appendChild(text);
+         }         
       }); 
+      let EventCard = document.querySelectorAll('.EventCard')
+      EventCard.forEach(EventCard => {
+         EventCard.addEventListener('click', function(OnClick) {
+            //this could also be done better but it works for now
+            OnClick.preventDefault();
+            let EventChoice = EventCard.textContent.split(": ");
+            EventId = EventChoice[0];
+            Setup()
+
+            console.log(EventId)
+         });
+      });
+         
       
    })
    .catch(error => {
