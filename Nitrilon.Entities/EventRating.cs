@@ -12,22 +12,25 @@ namespace Nitrilon.Entities
         private int eventId;
         private int ratingId;
         public int EventRatingId
-        { 
+        {
             get
             {
                 return eventRatingId;
             }
             set
             {
-                eventRatingId = value;
+                if (eventRatingId != value)
+                {
+                    eventRatingId = value;
+                }
             }
         }
-        public int EventId 
-        { 
+        public int EventId
+        {
             get
             {
                 return eventId;
-            } 
+            }
             set
             {
                 if (value <= 0)
@@ -37,8 +40,8 @@ namespace Nitrilon.Entities
                 eventId = value;
             }
         }
-        public int RatingId 
-        { 
+        public int RatingId
+        {
             get
             {
                 return ratingId;

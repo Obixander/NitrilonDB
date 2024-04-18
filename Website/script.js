@@ -4,9 +4,9 @@ let EventList = document.querySelector('.Card-Container')
 let btn1 = document.querySelector('#btn1');
 let btn2 = document.querySelector('#btn2');
 let btn3 = document.querySelector('#btn3');
-let Testing = document.querySelector('.Testing')
 //this is used for the timer in the overlay
 let Cooldown = 0;
+
 let EventId = 0;
 //this is a test
 let EventObject;
@@ -14,6 +14,7 @@ let EventObject;
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
 const EventRatingURL = 'https://localhost:7239/api/EventRating';
+const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents`;
 
 btn1.addEventListener('click', function (OnClick) {
    OnClick.preventDefault();
@@ -44,7 +45,6 @@ function Setup() {
 GetEvents()
 
 function GetEvents() {
-   const GetEventUrl = `https://localhost:7239/api/Event/GetActiveOrFutureEvents`;
 
    const requestOptions =
    {
@@ -73,7 +73,7 @@ function GetEvents() {
                let text = document.createElement('p')
                EventCard.classList.add("EventCard")
                const formattedDate = new Date(element.date).toLocaleDateString();
-               text.textContent = element.name + ": " + formattedDate;
+               text.textContent = element.name + " - (" + formattedDate + ")";
                EventList.appendChild(EventCard);
                EventCard.appendChild(text);
 

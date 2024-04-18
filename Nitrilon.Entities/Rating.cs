@@ -8,7 +8,6 @@ namespace Nitrilon.Entities
 {
     public class Rating
     {
-        //add validation
         private int id;
         private int ratingValue;
         private string description;
@@ -20,12 +19,42 @@ namespace Nitrilon.Entities
             Description = description;
         }
 
-        public int Id 
-        { 
-            get => id; 
-            set => id = value;
+        public int Id
+        {
+            get => id;
+            set
+            {
+                if (id < 0)
+                {
+                    throw new ArgumentException("Id cannot be or be below 0");
+                }
+                if (id != value)
+                {
+                    id = value;
+
+                }
+            }
+
         }
-        public int RatingValue { get => ratingValue; set => ratingValue = value; }
-        public string Description { get => description; set => description = value; }
+        public int RatingValue
+        {
+            get => ratingValue;
+            set
+            {
+                if (RatingValue > 1 && RatingValue < 3)
+                {
+                    ratingValue = value;
+                }
+            }
+
+        }
+        public string Description
+        { 
+            get => description;
+            set 
+            {
+                description = value;
+            } 
+        }
     }
 }

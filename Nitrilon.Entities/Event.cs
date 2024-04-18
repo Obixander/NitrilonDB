@@ -1,7 +1,7 @@
 ﻿namespace Nitrilon.Entities
 {
     public class Event
-    {   
+    {
         private int id;
         private DateTime date;
         private string name;
@@ -20,12 +20,12 @@
             this.ratings = ratings ?? throw new ArgumentNullException(nameof(ratings));
         }
 
-        public int Id 
-        { 
+        public int Id
+        {
             get
             {
                 return id;
-            } 
+            }
             set
             {
                 if (value < 0)
@@ -35,19 +35,19 @@
                 id = value;
             }
         }
-        public DateTime Date 
-        { 
+        public DateTime Date
+        {
             get
             {
                 return date;
             }
             set
-            {                
+            {
                 date = value;
             }
         }
-        public string Name 
-        { 
+        public string Name
+        {
             get
             {
                 return name;
@@ -61,23 +61,23 @@
                 name = value;
             }
         }
-        public int Attendees 
-        { 
+        public int Attendees
+        {
             get
             {
                 return attendees;
             }
             set
             {
-                if (value < -1 )
+                if (value < -1)
                 {
                     throw new ArgumentException("Attendees cannot be negative");
                 }
                 attendees = value;
             }
         }
-        public string Description 
-        { 
+        public string Description
+        {
             get
             {
                 return description;
@@ -87,7 +87,7 @@
                 description = value;
             }
         }
-    
+
         //this method is used for adding new ratings to the list<Rating> ratings
         public void Add(Rating rating)
         {
@@ -100,17 +100,27 @@
         //This method calculates the average rating of the event
         public double GetRatingAverage()
         {
+            //throw an exception if null
             if (ratings == null)
             {
                 throw new ArgumentNullException();
             }
-            double sum = 0;
-            foreach (Rating rating in ratings)
+            //check if the list is empty as to not divide by 0
+            if (ratings.Count > 0)
             {
-                sum += rating.RatingValue;
+                double sum = 0;
+                double average = 0.0;
+                foreach (Rating rating in ratings)
+                {
+                    sum += rating.RatingValue;
+                }
+                average = (double)sum / (double)ratings.Count();
+                return average;
             }
-            sum = sum / ratings.Count();
-            return sum;
+            else
+            {
+                return -1.0;
+            }
         }
     }
 }
