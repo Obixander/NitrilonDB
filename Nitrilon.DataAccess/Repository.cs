@@ -140,10 +140,11 @@ namespace Nitrilon.DataAccess
                     string name = Convert.ToString(reader["Name"]);
                     int attendees = Convert.ToInt32(reader["Attendees"]);
                     string description = Convert.ToString(reader["Description"]);
-
+                    //add this to the event e later
+                    List<Rating> ratingList = new List<Rating>();
                     try
                     {
-                        Event e = new Event(id, Date, name, attendees, description);
+                        Event e = new Event(id, Date, name, attendees, description, ratingList);
                         events.Add(e);
                     }
                     catch (ArgumentException Ex)
@@ -206,9 +207,10 @@ namespace Nitrilon.DataAccess
                     string name = Convert.ToString(reader["Name"]);
                     int attendees = Convert.ToInt32(reader["Attendees"]);
                     string description = Convert.ToString(reader["Description"]);
-                    try
+                    List<Rating> ratingList = new List<Rating>();
+                    try                    
                     {
-                        Event e = new Event(id, date, name, attendees, description);
+                        Event e = new Event(id, date, name, attendees, description, ratingList);
                         events.Add(e);
                     }
                     catch (ArgumentException Ex)
