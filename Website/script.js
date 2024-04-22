@@ -6,10 +6,8 @@ let btn2 = document.querySelector('#btn2');
 let btn3 = document.querySelector('#btn3');
 //this is used for the timer in the overlay
 let Cooldown = 0;
-
 let EventId = 0;
-//this is a test
-let EventObject;
+let Counter = 0;
 
 //Methods for Posting to Database on button Click
 //add A method for this and use the button id for the method
@@ -54,8 +52,6 @@ function GetEvents() {
       },
    }
 
-
-   //stringify the data to be sent
    fetch(GetEventUrl, requestOptions)
       .then(response => {
          if (!response.ok) {
@@ -67,36 +63,36 @@ function GetEvents() {
          let Events = JSON.parse(data);
          console.log(Events)
 
-         Events.forEach(element => {
-            if (element != " ") {
+         //This is used to add at max nine cards to the page
+         for (let i = 0; i < 9; i++) {
+            if (Events[i] != " ") {
                let EventCard = document.createElement('div');
                let text = document.createElement('p')
                EventCard.classList.add("EventCard")
-               const formattedDate = new Date(element.date).toLocaleDateString();
-               text.textContent = element.name + " - (" + formattedDate + ")";
+               const formattedDate = new Date(Events[i].date).toLocaleDateString();
+               text.textContent = Events[i].name + " - (" + formattedDate + ")";
                EventList.appendChild(EventCard);
                EventCard.appendChild(text);
 
                //works
                EventCard.addEventListener('click', function (OnClick) {
                   OnClick.preventDefault();
-
-                  EventId = element.id;
+                  EventId = Events[i].id;
                   Setup()
                   console.log(EventId)
-               });
-
+               });               
             }
-         });
+         }
          let EventCard = document.querySelectorAll('.EventCard')
-         
-         //maybe need this later idk
-         EventObject = Events
+
+
       })
       .catch(error => {
          console.error('Error:', error);
       });
 }
+
+
 
 //this is the method that posts the rating to the database
 function AddRating(id) {
@@ -108,14 +104,9 @@ function AddRating(id) {
       body: JSON.stringify({
          //Add A method for to change the EventId
          "EventId": EventId,
-
          "RatingID": id,
       })
    };
-   console.log(EventId);
-
-
-
    fetch(EventRatingURL, requestOptions)
       .then(response => {
          if (!response.ok) {

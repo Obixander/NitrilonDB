@@ -48,7 +48,7 @@ namespace Nitrilon.Entities
             }
             set
             {
-                if (value < 0 || value > 3)
+                if (value <= 0 || value > 3)
                 {
                     throw new ArgumentException("RatingId Cannot be below 1 or above 3");
                 }
