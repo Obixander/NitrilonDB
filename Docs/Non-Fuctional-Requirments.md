@@ -6,9 +6,12 @@ Systemet skal overholde følgende ikke-funktionelle krav:
 4. Backend skal hostes på en IIS Express på din lokale maskine til udvikling.
 5. Backend skal til produktion kunne deployes på en Windows Server 2019 maskine på en IIS med .NET 8 som runtime.
 6. Alle frontends skal udvikles i HTML5, CSS3 og javascript eller tilsvarende.
+
 7a. Frontend til Event Rating skal designes til og kunne afvikles i en browser på en iOS tablet.
 
 7b. Frontend til Event Rating skal designes til og kunne afvikles i en browser på en Android tablet.
+
+7c. Frontend til at se Ratings af Events skal designes til og kunen afvikles i en browser på en laptop
 
 8a. Frontend til medlemshåndtering skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
 
