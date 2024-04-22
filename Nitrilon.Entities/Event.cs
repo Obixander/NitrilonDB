@@ -1,15 +1,27 @@
-﻿namespace Nitrilon.Entities
+﻿
+using System.Text.Json.Serialization;
+
+namespace Nitrilon.Entities
 {
     public class Event
     {
+        
+
+
+        #region Fields
         private int id;
         private DateTime date;
         private string name;
         private int attendees;
         private string description;
         private List<Rating> ratings;
+        #endregion
 
-        public Event(int id, DateTime date, string name, int attendees, string description, List<Rating> ratings)
+
+        [JsonConstructor]
+        public Event() { }
+
+        public Event(int id, DateTime date, string name, int attendees, string description, List<Rating> Ratings)
         {
             Id = id;
             Date = date;
@@ -17,8 +29,9 @@
             Attendees = attendees;
             Description = description;
             //check if ratings is null and throws exception if true
-            this.ratings = ratings ?? throw new ArgumentNullException(nameof(ratings));
+            ratings = Ratings;
         }
+
 
         public int Id
         {
@@ -97,6 +110,8 @@
             }
             ratings.Add(rating);
         }
+
+
         //This method calculates the average rating of the event
         public double GetRatingAverage()
         {

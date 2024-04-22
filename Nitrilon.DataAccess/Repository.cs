@@ -6,10 +6,13 @@ namespace Nitrilon.DataAccess
 {
     public class Repository
     {
+        //this is used to create an connection to the database
         private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NitrilonDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
 
         //Methods for EventRatingController
+
+        //Gets all Ratings from all events and returns it
         public List<EventRating> GetAllRatings()
         {
 
@@ -55,12 +58,10 @@ namespace Nitrilon.DataAccess
             { //Change This later
                 throw new Exception(e.Message);
             }
-
-
-
             return eventRatings;
         }
 
+        //this is method is used to add a rating to the database
         public int SaveRating(EventRating newRating)
         {
             int newId = 0;
@@ -108,15 +109,15 @@ namespace Nitrilon.DataAccess
 
 
         //Methods for EventController
-
+        //This Method is used to get all Events in the "future" - 3 days
+        //returns list<Event>
         public List<Event> GetActiveOrFutureEvents()
         {
             List<Event> events = new List<Event>();
             try
             {
-                DateTime date = DateTime.UtcNow;
-
-                //temp
+                //This is a temp solution until a frontend way to select the date is made
+                DateTime date = DateTime.Now.AddDays(-3); //Minus a couple days to insure that even if the Event has begun they can still set up the Rating system
                 string sql = $"SELECT * FROM Events WHERE Date >= '{date.ToString("yyyy-MM-dd")}'";
                 
                 SqlConnection connection = new SqlConnection(connectionString);
@@ -132,7 +133,6 @@ namespace Nitrilon.DataAccess
                 SqlDataReader reader = command.ExecuteReader();
 
                 //5 Rerieve data from the data reader: 
-
                 while (reader.Read())
                 {
                     int id = Convert.ToInt32(reader["EventId"]);
@@ -157,16 +157,6 @@ namespace Nitrilon.DataAccess
                 //6. Close the connection:
                 connection.Close();
 
-                //Change this later please
-                //string ReturnValues = "";
-                //for (int i = 0; i < events.Count; i++)
-                //{
-                //    ReturnValues += events[i].Id.ToString() + ": ";
-                //    ReturnValues += events[i].Name;
-                //    ReturnValues += " (" + events[i].Date.ToString("yyyy-MM-dd");
-                //    ReturnValues += ") | ";
-                //}
-
                 return events;
             }
             catch (ArgumentException e)
@@ -177,12 +167,13 @@ namespace Nitrilon.DataAccess
 
         }
 
-
+        //This Method is used to get all Events from the Database and
+        //Return list<Event>
         public List<Event> GetAllEvents()
         {
-            List<Event> events = new List<Event>();
             try
             {
+                List<Event> events = new List<Event>();
                 string sql = $"SELECT * FROM Events";
 
                 //1: make a sqlConnection Object:
@@ -220,25 +211,23 @@ namespace Nitrilon.DataAccess
                 }
                 //6. Close the connection:
                 connection.Close();
+
+                return events;
             }
             catch (ArgumentException e)
             {
                 throw new Exception(e.Message);
             }
-
-
-            return events;
         }
 
+        //This method is used to Add a new Event to the Database
+        //Returns int Id : Id of the Created Event in Database
         public int Save(Event newEvent)
         {
-            int newId = 0;
             try
             {
-
-
+                int newId = 0;
                 //TODO: handle attendees when the event is not yet over.
-                //dont forget to format a date as 'yyyy-MM-dd'
                 string sql = $"INSERT INTO events (Date, Name,Attendees, Description) VALUES('{newEvent.Date.ToString("yyyy-MM-dd")}', '{newEvent.Name}',{newEvent.Attendees}, '{newEvent.Description}'); SELECT SCOPE_IDENTITY();";
 
                 //1: make a sqlConnection Object:
@@ -261,13 +250,14 @@ namespace Nitrilon.DataAccess
 
                 //5. Close the Connection when it is not needed anymore.
                 connection.Close();
+                
+                return newId;
             }
             catch (ArgumentException e)
             {
                 throw new Exception(e.Message);
             }
 
-            return newId;
         }
 
 
@@ -299,7 +289,7 @@ namespace Nitrilon.DataAccess
                 return e.Message;
             }
         }
-
+        //this method is used to update an Event in the database
         public string UpdateEvent(Event Event, int id)
         {
             try
@@ -326,14 +316,14 @@ namespace Nitrilon.DataAccess
 
                 //5. Close the Connection when it is not needed anymore.
                 connection.Close();
+                
+                return "Success";
             }
             catch (ArgumentException e)
             {
                 return e.Message;
             }
-            return "Success";
         }
-
 
     }
 }

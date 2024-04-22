@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nitrilon.DataAccess;
 using Nitrilon.Entities;
+using System.Collections.Generic;
 using System.Net.Http;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace NitrilonDB.Controllers
@@ -11,11 +13,7 @@ namespace NitrilonDB.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
-    {
-        //This no Working get Dads help PLEASE
-        //use Datetime Maybe?
-
-        //insted of getting the date in the javascript get it in the api or repository? 
+    {  
         [HttpGet]
         [Route("GetActiveOrFutureEvents")]
         public IActionResult GetActiveOrFutureEvents()
@@ -104,13 +102,21 @@ namespace NitrilonDB.Controllers
         {
             try
             {
+                List<Rating> ratingList = new List<Rating>();
+                int id = newEvent.Id;
+                DateTime date = newEvent.Date;
+                string name = newEvent.Name;
+                int attendees = newEvent.Attendees;
+                string description = newEvent.Description;
+                Event e = new Event(id, date, name, attendees, description, ratingList);
+                Console.WriteLine("test");
                 Repository repo = new();
-                int CreatedId = repo.Save(newEvent);
+                int CreatedId = repo.Save(e);
                 return Ok(CreatedId);
             }
             catch (Exception e)
             {
-                return NotFound(e);
+                return NotFound("error");
             }
         }
 

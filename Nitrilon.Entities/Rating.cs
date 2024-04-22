@@ -54,6 +54,7 @@ namespace Nitrilon.Entities
             set 
             {
                 description = value;
+                
             } 
         }
     }
