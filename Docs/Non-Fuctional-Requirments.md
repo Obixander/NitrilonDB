@@ -11,26 +11,30 @@ Systemet skal overholde følgende ikke-funktionelle krav:
 
 7b. Frontend til Event Rating skal designes til og kunne afvikles i en browser på en Android tablet.
 
-7c. Frontend til at se Ratings af Events skal designes til og kunen afvikles i en browser på en laptop
+8a. Frontend til andmelseshåndtering skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
 
-8a. Frontend til medlemshåndtering skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
+8b. Frontend til andmelseshåndtering skal designes til og kunne afvikles i Edge desktop browser på Windows 10.
 
-8b. Frontend til medlemshåndtering skal designes til og kunne afvikles i Edge desktop browser på Windows 10.
+8c. Frontend til andmelseshåndtering skal designes til og kunne afvikles i Firefox desktop browser på Windows 10.
 
-8c. Frontend til medlemshåndtering skal designes til og kunne afvikles i Firefox desktop browser på Windows 10.
+9a. Frontend til medlemshåndtering skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
 
-9a. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
+9b. Frontend til medlemshåndtering skal designes til og kunne afvikles i Edge desktop browser på Windows 10.
 
-9b. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Edge desktop browser på Windows 10.
+9c. Frontend til medlemshåndtering skal designes til og kunne afvikles i Firefox desktop browser på Windows 10.
 
-9c. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Firefox desktop browser på Windows 10.
+10a. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Chrome desktop browser på Windows 10.
 
-9d. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Safari mobil browser på iOS.
+10b. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Edge desktop browser på Windows 10.
 
-9e. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Chrome mobil browser på Android.
+10c. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Firefox desktop browser på Windows 10.
 
-10a. Kommunikation mellem klient og server skal anvende HTTP eller HTTPS som protokol.
+10d. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Safari mobil browser på iOS.
 
-10b. Kommunikation mellem klient og server skal anvende JSON som dataformat.
+10e. Frontend til rollespilsgrupper skal designes til og kunne afvikles i Chrome mobil browser på Android.
+
+11a. Kommunikation mellem klient og server skal anvende HTTP eller HTTPS som protokol.
+
+11b. Kommunikation mellem klient og server skal anvende JSON som dataformat.
 
 NOTE: Der skal ikke tages hensyn til sikkerhed, GDPR, kryptering mv., da det ligger uden for fagets mål.
