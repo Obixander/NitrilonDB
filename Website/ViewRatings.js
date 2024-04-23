@@ -11,6 +11,7 @@ let GreenBar = document.querySelector('#GreenBar')
 let YellowBar = document.querySelector('#YellowBar')
 let RedBar = document.querySelector('#RedBar')
 
+
 function GetEvents() {
 
    const requestOptions =
@@ -30,7 +31,8 @@ function GetEvents() {
       })
       .then(data => {
          let Events = JSON.parse(data);
-         console.log(Events)
+         
+         
          //try to add a scrollbar to slide through the events
          Events.forEach(Event => {
             if (Event != " ") {
@@ -45,8 +47,9 @@ function GetEvents() {
                //works
                EventCard.addEventListener('click', function (OnClick) {
                   OnClick.preventDefault();
+                  console.log(AllEvents)
                   let EventId = Event.id;
-                  console.log(EventId)
+                  console.log(EventId)                  
                   GetRatingsByEvent(Event.id)
                });
             }
@@ -61,14 +64,14 @@ function GetEvents() {
 }
 
 function GetRatingsByEvent(Id) {
-let GetRatingByIdURL = `https://localhost:7239/api/EventRating/${Id}`;
-  
+   let GetRatingByIdURL = `https://localhost:7239/api/EventRating/${Id}`;
+
    const RequestOptions = {
       method: 'get',
       headers: {
          'Content-Type': 'application/json'
-      },    
-   }  
+      },
+   }
 
    fetch(GetRatingByIdURL, RequestOptions)
       .then(response => {
@@ -91,41 +94,54 @@ let GetRatingByIdURL = `https://localhost:7239/api/EventRating/${Id}`;
             else if (Rating.ratingId == 2) {
                Neutral++;
             }
-            else  if (Rating.ratingId == 3) {
+            else if (Rating.ratingId == 3) {
                Sad++;
             }
             Total++;
          });
 
          console.log(Happy + " " + Neutral + " " + Sad)
-         
-         if(Happy != isNaN && Neutral != isNaN && Sad != isNaN){
-         //Procent Calc
-         let HappyProcent = Math.floor((Happy / Total) * 100);
-         h2[0].textContent = `Procent: ${HappyProcent}%`;
-         
-         let NeutralProcent = Math.floor((Neutral / Total) * 100);
-         h2[2].textContent = `Procent: ${NeutralProcent}%`;
-         
-         let SadProcent = Math.floor((Sad / Total) * 100);
-         h2[4].textContent = `Procent: ${SadProcent}%`;
+         //this is not the best solution as a event can have no rating of one kind but still have ratings of the others
+         if (Happy != 0 || Neutral != 0 || Sad != 0) {
+            GreenBar.style.height = `${0}%`;
+            YellowBar.style.height = `${0}%`;
+            RedBar.style.height = `${0}%`;
 
-         //Bar Height
-         
-         GreenBar.style.height = `${HappyProcent}%`;
-         YellowBar.style.height = `${NeutralProcent}%`;
-         RedBar.style.height = `${SadProcent}%`;
+            //Procent Calc
+            let HappyProcent = Math.floor((Happy / Total) * 100);
+            h2[0].textContent = `Procent: ${HappyProcent}%`;
 
-         //Total Amount
-         h2[1].textContent = `Total Ratings: ${Happy}`;
-         h2[3].textContent = `Total Ratings: ${Neutral}`
-         h2[5].textContent = `Total Ratings: ${Sad}`
-            }
-      else {
-         h2[0].textContent = `Procent: 0%`;
-         h2[2].textContent = `Procent: 0%`;
-         h2[4].textContent = `Procent: 0%`;
-      }
+            let NeutralProcent = Math.floor((Neutral / Total) * 100);
+            h2[2].textContent = `Procent: ${NeutralProcent}%`;
+
+            let SadProcent = Math.floor((Sad / Total) * 100);
+            h2[4].textContent = `Procent: ${SadProcent}%`;
+
+            //Bar Height
+
+            GreenBar.style.height = `${HappyProcent}%`;
+            YellowBar.style.height = `${NeutralProcent}%`;
+            RedBar.style.height = `${SadProcent}%`;
+
+            //Total Amount
+            h2[1].textContent = `Total Ratings: ${Happy}`;
+            h2[3].textContent = `Total Ratings: ${Neutral}`
+            h2[5].textContent = `Total Ratings: ${Sad}`
+         }
+         else {
+            //resets if the Rating count is 0
+            h2[0].textContent = `Procent: 0%`;
+            h2[2].textContent = `Procent: 0%`;
+            h2[4].textContent = `Procent: 0%`;
+
+            h2[1].textContent = `Total Ratings: ${0}`;
+            h2[3].textContent = `Total Ratings: ${0}`
+            h2[5].textContent = `Total Ratings: ${0}`
+            GreenBar.style.height = `${0}%`;
+            YellowBar.style.height = `${0}%`;
+            RedBar.style.height = `${0}%`;
+
+         }
       })
       .catch(error => {
          console.error('Error:', error);
