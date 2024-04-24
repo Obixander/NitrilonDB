@@ -11,9 +11,45 @@ namespace Nitrilon.DataAccess
 
 
         //Methods for EventRatingController
-        public void GetEventRatingData()
+        public EventRatingData GetEventRatingDataBy(int eventId)
         {
+            try
+            {
+                int BadRatingCount = 0;
+                int NeutralRatingCount = 0;
+                int GoodRatingCount = 0;
+                EventRatingData eventRatingData = default;
 
+                string sql = $"EXEC CountAllowedRatingsForEvent @EventiD = {eventId}";
+
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+                //3. Open the connection:
+                connection.Open();
+                //4.Execute query:
+                SqlDataReader reader = command.ExecuteReader();
+
+                //5 Rerieve data from the data reader: 
+
+                while (reader.Read())
+                {
+                    BadRatingCount = Convert.ToInt32(reader["RatingId1Count"]);
+                    NeutralRatingCount = Convert.ToInt32(reader["RatingId2Count"]);
+                    GoodRatingCount = Convert.ToInt32(reader["RatingId3Count"]);
+                    eventRatingData = new(BadRatingCount, NeutralRatingCount, GoodRatingCount);
+                }
+                //6. Close the connection:
+                connection.Close();
+
+                return eventRatingData;
+
+            }
+            catch (ArgumentException e)
+            { //Change This later
+                throw new Exception(e.Message);
+            }
         }
 
         //Gets all Ratings from all events and returns it
@@ -58,7 +94,7 @@ namespace Nitrilon.DataAccess
                 //6. Close the connection:
                 connection.Close();
 
-            return eventRatings;
+                return eventRatings;
 
             }
             catch (ArgumentException e)
@@ -125,7 +161,7 @@ namespace Nitrilon.DataAccess
                 //This is a temp solution until a frontend way to select the date is made
                 DateTime date = DateTime.Now.AddDays(-3); //Minus a couple days to insure that even if the Event has begun they can still set up the Rating system
                 string sql = $"SELECT * FROM Events WHERE Date >= '{date.ToString("yyyy-MM-dd")}'";
-                
+
                 SqlConnection connection = new SqlConnection(connectionString);
 
                 //2. Make a SqlCommand object:
@@ -162,7 +198,7 @@ namespace Nitrilon.DataAccess
                     {
                         throw new Exception(Ex.Message);
                     }
-             
+
                 }
 
                 //6. Close the connection:
@@ -216,7 +252,7 @@ namespace Nitrilon.DataAccess
 
 
                     EventRatingData rating = new EventRatingData(badRatingCount, neutralRatingCount, goodRatingCount);
-                    try                    
+                    try
                     {
                         Event e = new Event(id, date, name, attendees, description, rating);
                         events.Add(e);
@@ -267,7 +303,7 @@ namespace Nitrilon.DataAccess
 
                 //5. Close the Connection when it is not needed anymore.
                 connection.Close();
-                
+
                 return newId;
             }
             catch (ArgumentException e)
@@ -333,7 +369,7 @@ namespace Nitrilon.DataAccess
 
                 //5. Close the Connection when it is not needed anymore.
                 connection.Close();
-                
+
                 return "Success";
             }
             catch (ArgumentException e)

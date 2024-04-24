@@ -63,7 +63,8 @@ function GetEvents() {
 }
 
 function GetRatingsByEvent(Id) {
-   let GetRatingByIdURL = `https://localhost:7239/api/EventRating/${Id}`;
+   let GetRatingByIdURL = `https://localhost:7239/api/EventRating?eventId=${Id}`;
+   
 
    const RequestOptions = {
       method: 'get',
@@ -82,22 +83,10 @@ function GetRatingsByEvent(Id) {
       .then(data => {
          let Ratings = JSON.parse(data);
          console.log(Ratings)
-         let Happy = 0;
-         let Neutral = 0;
-         let Sad = 0;
-         let Total = 0;
-         Ratings.forEach(Rating => {
-            if (Rating.ratingId == 1) {
-               Happy++;
-            }
-            else if (Rating.ratingId == 2) {
-               Neutral++;
-            }
-            else if (Rating.ratingId == 3) {
-               Sad++;
-            }
-            Total++;
-         });
+         let Happy = Ratings.goodRatingCount;
+         let Neutral = Ratings.neutralRatingCount;
+         let Sad = Ratings.badRatingCount;   
+         let Total = Happy + Neutral + Sad;      
 
          console.log(Happy + " " + Neutral + " " + Sad)
          //this is not the best solution as a event can have no rating of one kind but still have ratings of the others

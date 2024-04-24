@@ -11,13 +11,13 @@ namespace NitrilonDB.Controllers
     {
         //i Dont think adding a "put" makes any amount of sense 
         //TODO: PUT(ID)
-        [HttpGet]
-        public IEnumerable<EventRating> GetAll()
-        {
-            Repository repo = new();
-            List<EventRating> EventRatings = repo.GetAllRatings();
-            return EventRatings;
-        }
+        //[HttpGet]
+        //public IEnumerable<EventRating> GetAll()
+        //{
+        //    Repository repo = new();
+        //    List<EventRating> EventRatings = repo.GetAllRatings();
+        //    return EventRatings;
+        //}
 
         [HttpGet("{id}")]
         public ActionResult<EventRating> Get(int id)
@@ -48,6 +48,14 @@ namespace NitrilonDB.Controllers
             {
                 return NotFound(e);
             }
+        }
+
+        [HttpGet]
+        public ActionResult<EventRatingData> GetEventRatingDataFor(int eventId)
+        {
+            Repository repository = new();
+            EventRatingData eventRatingData = repository.GetEventRatingDataBy(eventId);
+            return Ok(eventRatingData);
         }
 
 
