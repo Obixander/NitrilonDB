@@ -64,13 +64,16 @@ function GetEvents() {
          console.log(Events)
 
          //This is used to add at max nine cards to the page
-         for (let i = 0; i < 9; i++) {
+         for (let i = 0; i < Events.length; i++) {
             if (Events[i] != " ") {
                let EventCard = document.createElement('div');
                let text = document.createElement('p')
                EventCard.classList.add("EventCard")
+               
                const formattedDate = new Date(Events[i].date).toLocaleDateString();
+
                text.textContent = Events[i].name + " - (" + formattedDate + ")";
+
                EventList.appendChild(EventCard);
                EventCard.appendChild(text);
 
