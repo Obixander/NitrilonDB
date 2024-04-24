@@ -63,8 +63,7 @@ function GetEvents() {
 }
 
 function GetRatingsByEvent(Id) {
-   let GetRatingByIdURL = `https://localhost:7239/api/EventRating?eventId=${Id}`;
-   
+   let GetRatingByIdURL = `https://localhost:7239/api/EventRating?eventId=${Id}`;   
 
    const RequestOptions = {
       method: 'get',
@@ -89,20 +88,20 @@ function GetRatingsByEvent(Id) {
          let Total = Happy + Neutral + Sad;      
 
          console.log(Happy + " " + Neutral + " " + Sad)
-         //this is not the best solution as a event can have no rating of one kind but still have ratings of the others
+         
          if (Happy != 0 || Neutral != 0 || Sad != 0) {
             GreenBar.style.height = `${0}%`;
             YellowBar.style.height = `${0}%`;
             RedBar.style.height = `${0}%`;
 
             //Procent Calc
-            let HappyProcent = Math.floor((Happy / Total) * 100);
+            let HappyProcent = Math.round((Happy / Total) * 100);
             h2[0].textContent = `Procent: ${HappyProcent}%`;
 
-            let NeutralProcent = Math.floor((Neutral / Total) * 100);
+            let NeutralProcent = Math.round((Neutral / Total) * 100);
             h2[2].textContent = `Procent: ${NeutralProcent}%`;
 
-            let SadProcent = Math.floor((Sad / Total) * 100);
+            let SadProcent = Math.round((Sad / Total) * 100);
             h2[4].textContent = `Procent: ${SadProcent}%`;
 
             //Bar Height
@@ -125,6 +124,7 @@ function GetRatingsByEvent(Id) {
             h2[1].textContent = `Total Ratings: ${0}`;
             h2[3].textContent = `Total Ratings: ${0}`
             h2[5].textContent = `Total Ratings: ${0}`
+
             GreenBar.style.height = `${0}%`;
             YellowBar.style.height = `${0}%`;
             RedBar.style.height = `${0}%`;

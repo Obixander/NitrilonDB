@@ -49,7 +49,7 @@ namespace NitrilonDB.Controllers
                 return NotFound(e);
             }
         }
-
+        //This method is used to get all Ratings by EventId and returns a count of the good, neutral and bad ratings
         [HttpGet]
         public ActionResult<EventRatingData> GetEventRatingDataFor(int eventId)
         {

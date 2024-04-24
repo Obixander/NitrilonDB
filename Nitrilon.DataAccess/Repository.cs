@@ -11,6 +11,8 @@ namespace Nitrilon.DataAccess
 
 
         //Methods for EventRatingController
+
+        //This method is used to get all Ratings by EventId and returns a count of the good, neutral and bad ratings
         public EventRatingData GetEventRatingDataBy(int eventId)
         {
             try
