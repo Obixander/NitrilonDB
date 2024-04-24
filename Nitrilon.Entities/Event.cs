@@ -14,14 +14,13 @@ namespace Nitrilon.Entities
         private string name;
         private int attendees;
         private string description;
-        private List<Rating> ratings;
+        private EventRatingData ratings;
         #endregion
 
 
         [JsonConstructor]
         public Event() { }
-
-        public Event(int id, DateTime date, string name, int attendees, string description, List<Rating> Ratings)
+        public Event(int id, DateTime date, string name, int attendees, string description)
         {
             Id = id;
             Date = date;
@@ -29,9 +28,14 @@ namespace Nitrilon.Entities
             Attendees = attendees;
             Description = description;
             //check if ratings is null and throws exception if true
-            ratings = Ratings;
         }
 
+        public Event(int id, DateTime date, string name, int attendees, string description, EventRatingData Ratings)
+            : this(id, date, name, attendees, description)
+        {
+            //check if ratings is null and throws exception if true
+            ratings = Ratings;
+        }
 
         public int Id
         {
@@ -100,42 +104,6 @@ namespace Nitrilon.Entities
                 description = value;
             }
         }
-
-        //this method is used for adding new ratings to the list<Rating> ratings
-        public void Add(Rating rating)
-        {
-            if (rating == null)
-            {
-                throw new ArgumentNullException(nameof(rating));
-            }
-            ratings.Add(rating);
-        }
-
-
-        //This method calculates the average rating of the event
-        public double GetRatingAverage()
-        {
-            //throw an exception if null
-            if (ratings == null)
-            {
-                throw new ArgumentNullException();
-            }
-            //check if the list is empty as to not divide by 0
-            if (ratings.Count > 0)
-            {
-                double sum = 0;
-                double average = 0.0;
-                foreach (Rating rating in ratings)
-                {
-                    sum += rating.RatingValue;
-                }
-                average = (double)sum / (double)ratings.Count();
-                return average;
-            }
-            else
-            {
-                return -1.0;
-            }
-        }
+        public EventRatingData Ratings { get => ratings; set => ratings = value; }
     }
 }

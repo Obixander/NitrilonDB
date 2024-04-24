@@ -8,19 +8,21 @@ namespace Nitrilon.Entities
 {
     public class EventRatingData
     {
-        private int bad;
-        private int neutral;
-        private int good;
+        private int badRatingCount;
+        private int neutralRatingCount;
+        private int goodRatingCount;
 
-        public EventRatingData(int bad, int neutral, int good)
+        public EventRatingData(int badRatingCount, int neutralRatingCount, int goodRatingCount)
         {
-            Bad = bad;
-            Neutral = neutral;
-            Good = good;
+            BadRatingCount = badRatingCount;
+            NeutralRatingCount = neutralRatingCount;
+            GoodRatingCount = goodRatingCount;
         }
 
-        public int Bad { get => bad; set => bad = value; }
-        public int Neutral { get => neutral; set => neutral = value; }
-        public int Good { get => good; set => good = value; }
+
+        //add incapsling
+        public int BadRatingCount { get => badRatingCount; set => badRatingCount = value; }
+        public int NeutralRatingCount { get => neutralRatingCount; set => neutralRatingCount = value; }
+        public int GoodRatingCount { get => goodRatingCount; set => goodRatingCount = value; }
     }
 }

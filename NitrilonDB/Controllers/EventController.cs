@@ -102,13 +102,19 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                List<Rating> ratingList = new List<Rating>();
+                //Change this from the default values to the stored procedure
+                int badRatingCount = 0;
+                int neutralRatingCount = 0;
+                int goodRatingCount = 0;
+
+
+                EventRatingData rating = new EventRatingData(badRatingCount, neutralRatingCount, goodRatingCount);
                 int id = newEvent.Id;
                 DateTime date = newEvent.Date;
                 string name = newEvent.Name;
                 int attendees = newEvent.Attendees;
                 string description = newEvent.Description;
-                Event e = new Event(id, date, name, attendees, description, ratingList);
+                Event e = new Event(id, date, name, attendees, description, rating);
                 Console.WriteLine("test");
                 Repository repo = new();
                 int CreatedId = repo.Save(e);

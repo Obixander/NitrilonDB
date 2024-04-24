@@ -146,11 +146,16 @@ namespace Nitrilon.DataAccess
                     string name = Convert.ToString(reader["Name"]);
                     int attendees = Convert.ToInt32(reader["Attendees"]);
                     string description = Convert.ToString(reader["Description"]);
-                    //add this to the event e later
-                    List<Rating> ratingList = new List<Rating>();
+                    //Change this from the default values to the stored procedure
+                    int badRatingCount = 0;
+                    int neutralRatingCount = 0;
+                    int goodRatingCount = 0;
+
+
+                    EventRatingData rating = new EventRatingData(badRatingCount, neutralRatingCount, goodRatingCount);
                     try
                     {
-                        Event e = new Event(id, Date, name, attendees, description, ratingList);
+                        Event e = new Event(id, Date, name, attendees, description, rating);
                         events.Add(e);
                     }
                     catch (ArgumentException Ex)
@@ -204,10 +209,16 @@ namespace Nitrilon.DataAccess
                     string name = Convert.ToString(reader["Name"]);
                     int attendees = Convert.ToInt32(reader["Attendees"]);
                     string description = Convert.ToString(reader["Description"]);
-                    List<Rating> ratingList = new List<Rating>();
+                    //Change this from the default values to the stored procedure
+                    int badRatingCount = 0;
+                    int neutralRatingCount = 0;
+                    int goodRatingCount = 0;
+
+
+                    EventRatingData rating = new EventRatingData(badRatingCount, neutralRatingCount, goodRatingCount);
                     try                    
                     {
-                        Event e = new Event(id, date, name, attendees, description, ratingList);
+                        Event e = new Event(id, date, name, attendees, description, rating);
                         events.Add(e);
                     }
                     catch (ArgumentException Ex)
