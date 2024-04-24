@@ -18,3 +18,17 @@ Aktører:
 03: Systemet skal automatisk klargøre til næste indtastning, efter en indtastning.
 
 04: Den eventansvarlige skal kunne vælge et event for at få vist antallet af bedømmelser i hver bedømmelsesniveau.
+
+## Subsystem 02: Medlemshåndtering
+Aktører
+* system:
+* medlemsansvarlige: Den der skal kunne se, tilføje, fjerne og se hvilken medlemskab medlemmer har
+* medlemmer: har ikke en aktiv role i nu
+
+01: En medlemsansvarlige skal kunne se alle Medlemmer
+
+02: En medlemsansvarlige skal kunne Tilføje nye Medlemmer
+
+ 03: En medlemsansvarlige skal kunne fjerne Medlemmer 
+
+ 04:  En medlemsansvarlige skal kunne se hvilket form medlemsskab en medlem har
