@@ -11,14 +11,18 @@ namespace Nitrilon.DataAccess
 
 
         //Methods for EventRatingController
+        public void GetEventRatingData()
+        {
+
+        }
 
         //Gets all Ratings from all events and returns it
         public List<EventRating> GetAllRatings()
         {
 
-            List<EventRating> eventRatings = new();
             try
             {
+                List<EventRating> eventRatings = new();
                 string sql = $"SELECT * FROM EventRatings";
 
                 //1: make a sqlConnection Object:
@@ -53,12 +57,14 @@ namespace Nitrilon.DataAccess
                 }
                 //6. Close the connection:
                 connection.Close();
+
+            return eventRatings;
+
             }
             catch (ArgumentException e)
             { //Change This later
                 throw new Exception(e.Message);
             }
-            return eventRatings;
         }
 
         //this is method is used to add a rating to the database

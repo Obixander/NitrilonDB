@@ -47,7 +47,6 @@ function GetEvents() {
                //works
                EventCard.addEventListener('click', function (OnClick) {
                   OnClick.preventDefault();
-                  console.log(AllEvents)
                   let EventId = Event.id;
                   console.log(EventId)                  
                   GetRatingsByEvent(Event.id)
