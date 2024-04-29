@@ -21,9 +21,8 @@ Aktører:
 
 ## Subsystem 02: Medlemshåndtering
 Aktører
-* system:
-* medlemsansvarlige: Den der skal kunne se, tilføje, fjerne og se hvilken medlemskab medlemmer har
-* medlemmer: har ikke en aktiv role i nu
+* Medlemsansvarlige: Den der skal kunne se, tilføje, fjerne og se hvilken medlemskab medlemmer har
+* Medlemmer: har ikke en aktiv role i nu
 
 01: En medlemsansvarlige skal kunne se alle Medlemmer
 
