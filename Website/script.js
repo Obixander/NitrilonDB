@@ -87,8 +87,6 @@ function GetEvents() {
             }
          }
          let EventCard = document.querySelectorAll('.EventCard')
-
-
       })
       .catch(error => {
          console.error('Error:', error);
@@ -131,7 +129,6 @@ function AddOverlay() {
    const Timer = Date.now();
 
    if (Timer > Cooldown) {
-
 
       let text = document.querySelector('.Title');
       let oldText = text.textContent;
