@@ -22,7 +22,6 @@ Aktører:
 ## Subsystem 02: Medlemshåndtering
 Aktører
 * Medlemsansvarlige: Den der skal kunne se, tilføje, fjerne og se hvilken medlemskab medlemmer har
-* Medlemmer: Er et medlem af nitrilon
 
 01: En medlemsansvarlige skal kunne se alle Medlemmer og status på deres medlemskab
 
