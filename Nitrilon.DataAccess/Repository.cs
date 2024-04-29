@@ -9,6 +9,166 @@ namespace Nitrilon.DataAccess
         //this is used to create an connection to the database
         private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NitrilonDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
+        //methods for the MemberController
+        public int Add(Member member)
+        {
+            try
+            {
+                int newId = 0;
+
+                if (member.Email == "")
+                {
+                    member.Email = null;
+                }
+                if (member.PhoneNumber == "")
+                {
+                    member.PhoneNumber = null;
+                }
+
+                string sql = $"INSERT INTO Members (Name,PhoneNumber,Email,MembershipId) VALUES('{member.Name}', '{member.PhoneNumber}', '{member.Email}', {member.MembershipId}); SELECT SCOPE_IDENTITY();";
+
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+
+                connection.Open();
+
+                //4. Execute the insert Command and get the newly created id for the row
+                newId = Convert.ToInt32(command.ExecuteScalar());
+
+                connection.Close();
+
+                return newId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Member> GetAllMembers()
+        {
+            try
+            {
+                List<Member> members = new List<Member>();
+
+                string sql = "SELECT * FROM Members";
+
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+
+                connection.Open();
+
+                //4. Execute the select Command and get the newly created id for the row
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int MemberId = Convert.ToInt32(reader["MemberId"]);
+                    string Name = reader["Name"].ToString();
+                    string Email = reader["Email"].ToString();
+                    string PhoneNumber = reader["PhoneNumber"].ToString();
+                    DateTime Date = (DateTime)reader["Date"];
+                    int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+
+                    Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, MembershipId);
+                    members.Add(member);
+                }
+
+                connection.Close();
+
+                return members;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Member GetMemberById(int id)
+        {
+            try
+            {
+                Member member = null;
+
+                string sql = $"SELECT * FROM Members WHERE MemberId = {id}";
+
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+
+                connection.Open();
+
+                //4. Execute the select Command and get the newly created id for the row
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int MemberId = Convert.ToInt32(reader["MemberId"]);
+                    string Name = reader["Name"].ToString();
+                    string Email = reader["Email"].ToString();
+                    string PhoneNumber = reader["PhoneNumber"].ToString();
+                    DateTime Date = (DateTime)reader["Date"];
+                    int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+
+                    member = new Member(MemberId, Name, Email, PhoneNumber, Date, MembershipId);
+                }
+                connection.Close();
+
+                if (member == null)
+                {
+                    throw new Exception("Member not found");
+                }
+                return member;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void Update(int id, Member member)
+        {
+            try
+            {
+                string sql = $"UPDATE Members SET Name = '{member.Name}', PhoneNumber = '{member.PhoneNumber}', Email = '{member.Email}',Date = {member.Date.ToString("yyyy-MM-dd")}, MembershipId = {member.MembershipId} WHERE MemberId = {id}";
+
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+                connection.Open();
+
+                //4. Execute the insert Command and get the newly created id for the row
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+
 
         //Methods for EventRatingController
 
