@@ -19,8 +19,44 @@ namespace Nitrilon.Entities
             Description = description;
         }
 
-        public int MembershipId { get => membershipId; set => membershipId = value; }
-        public string Name { get => name; set => name = value; }
-        public string Description { get => description; set => description = value; }
+        public int MembershipId {
+            get => membershipId;
+            set {
+                if (value < -1 || value == 0)
+                {
+                    throw new ArgumentException("MembershipId cannot be below -1 or be 0");
+                }
+                if (value != membershipId)
+                { 
+                    membershipId = value;
+                }
+            }
+        }
+        public string Name { 
+            get => name;
+            set {
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new Exception("Name cannot be empty");
+                }
+                if (value != name)
+                {
+                    name = value;
+                }
+            }
+        }
+        public string Description { 
+            get => description;
+            set { 
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new Exception("Description cannot be empty");
+                }
+                if (value != description)
+                { 
+                    description = value;
+                }
+            }
+        }
     }
 }
