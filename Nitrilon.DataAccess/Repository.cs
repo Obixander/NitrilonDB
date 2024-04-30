@@ -26,7 +26,7 @@ namespace Nitrilon.DataAccess
                     member.PhoneNumber = null;
                 }
 
-                string sql = $"INSERT INTO Members (Name,PhoneNumber,Email,MembershipId) VALUES('{member.Name}', '{member.PhoneNumber}', '{member.Email}', {member.MembershipId}); SELECT SCOPE_IDENTITY();";
+                string sql = $"INSERT INTO Members (Name,PhoneNumber,Email,MembershipId) VALUES('{member.Name}', '{member.PhoneNumber}', '{member.Email}', {member.Membership}); SELECT SCOPE_IDENTITY();";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);
@@ -111,7 +111,7 @@ namespace Nitrilon.DataAccess
                         }
                         else
                         {
-                            throw new Exception(MemberId + "Has a MembershipId that is not valid");
+                            throw new Exception("MemberId: "+ MemberId + " Has a MembershipId that is not valid");
                         }
 
                         Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, membership);
@@ -202,7 +202,7 @@ namespace Nitrilon.DataAccess
         {
             try
             {
-                string sql = $"UPDATE Members SET Name = '{member.Name}', PhoneNumber = '{member.PhoneNumber}', Email = '{member.Email}',Date = '{member.Date.ToString("yyyy-MM-dd")}', MembershipId = {member.MembershipId} WHERE MemberId = {id}";
+                string sql = $"UPDATE Members SET Name = '{member.Name}', PhoneNumber = '{member.PhoneNumber}', Email = '{member.Email}',Date = '{member.Date.ToString("yyyy-MM-dd")}', MembershipId = {member.Membership} WHERE MemberId = {id}";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);
