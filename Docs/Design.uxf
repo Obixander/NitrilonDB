@@ -22,7 +22,7 @@ Description: ntext
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>828</x>
+      <x>882</x>
       <y>270</y>
       <w>270</w>
       <h>144</h>
@@ -61,7 +61,7 @@ m2=1..5,6
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>414</x>
+      <x>468</x>
       <y>252</y>
       <w>288</w>
       <h>144</h>
@@ -79,19 +79,19 @@ EventRatingsId: int{PK}
     <coordinates>
       <x>324</x>
       <y>252</y>
-      <w>126</w>
+      <w>180</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1
 </panel_attributes>
-    <additional_attributes>10.0;20.0;50.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;80.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>684</x>
+      <x>738</x>
       <y>252</y>
       <w>180</w>
       <h>90</h>
@@ -105,8 +105,8 @@ m2=*
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>342</x>
-      <y>144</y>
+      <x>162</x>
+      <y>108</y>
       <w>414</w>
       <h>54</h>
     </coordinates>
@@ -120,6 +120,18 @@ bg=blue
     <coordinates>
       <x>1674</x>
       <y>360</y>
+      <w>252</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1422</x>
+      <y>252</y>
       <w>252</w>
       <h>126</h>
     </coordinates>

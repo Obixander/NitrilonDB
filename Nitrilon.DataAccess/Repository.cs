@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Nitrilon.Entities;
+using System.ComponentModel.Design;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Nitrilon.DataAccess
@@ -54,9 +55,10 @@ namespace Nitrilon.DataAccess
         {
             try
             {
+                //The idea is to get all the Memberships first and then when the Members have to be build then create the Members
                 List<Member> members = new List<Member>();
 
-                string sql = "SELECT * FROM Members";
+                string sql = "SELECT * FROM Memberships; SELECT * FROM Members;";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);
@@ -70,18 +72,51 @@ namespace Nitrilon.DataAccess
 
                 //4. Execute the select Command and get the newly created id for the row
                 SqlDataReader reader = command.ExecuteReader();
-
+                List<Membership> MembershipStatus = new List<Membership>();
                 while (reader.Read())
                 {
-                    int MemberId = Convert.ToInt32(reader["MemberId"]);
-                    string Name = reader["Name"].ToString();
-                    string Email = reader["Email"].ToString();
-                    string PhoneNumber = reader["PhoneNumber"].ToString();
-                    DateTime Date = (DateTime)reader["Date"];
                     int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+                    string MembershipName = reader["Name"].ToString();
+                    string MembershipDescription = reader["Description"].ToString();
 
-                    Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, MembershipId);
-                    members.Add(member);
+                    MembershipStatus.Add(new Membership(MembershipId, MembershipName, MembershipDescription));
+                }
+                if (reader.NextResult())
+                { 
+                    while (reader.Read())
+                    {
+
+
+                        int MemberId = Convert.ToInt32(reader["MemberId"]);
+                        string Name = reader["Name"].ToString();
+                        string Email = reader["Email"].ToString();
+                        string PhoneNumber = reader["PhoneNumber"].ToString();
+                        DateTime Date = (DateTime)reader["Date"];
+                        int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+                        Membership membership = null;
+                        //This is a Active account
+                        if (MembershipId == 1)
+                        {
+                            membership = MembershipStatus[0];
+                        }
+                        //this is a passive account
+                        else if (MembershipId == 2)
+                        {
+                            membership = MembershipStatus[1];
+                        }
+                        //This is Deactived account
+                        else if (MembershipId == -1)
+                        {
+                            membership = MembershipStatus[2];
+                        }
+                        else
+                        {
+                            throw new Exception(MemberId + "Has a MembershipId that is not valid");
+                        }
+
+                        Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, membership);
+                        members.Add(member);
+                    }
                 }
 
                 connection.Close();
@@ -100,7 +135,7 @@ namespace Nitrilon.DataAccess
             {
                 Member member = null;
 
-                string sql = $"SELECT * FROM Members WHERE MemberId = {id}";
+                string sql = $"SELECT * FROM Membership; SELECT * FROM Members WHERE MemberId = {id};";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);
@@ -114,7 +149,15 @@ namespace Nitrilon.DataAccess
 
                 //4. Execute the select Command and get the newly created id for the row
                 SqlDataReader reader = command.ExecuteReader();
+                List<Membership> MembershipStatus = new List<Membership>();
+                while (reader.Read())
+                {
+                    int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+                    string MembershipName = reader["Name"].ToString();
+                    string MembershipDescription = reader["Description"].ToString();
 
+                    MembershipStatus.Add(new Membership(MembershipId, MembershipName, MembershipDescription));
+                }
                 while (reader.Read())
                 {
                     int MemberId = Convert.ToInt32(reader["MemberId"]);
@@ -123,8 +166,23 @@ namespace Nitrilon.DataAccess
                     string PhoneNumber = reader["PhoneNumber"].ToString();
                     DateTime Date = (DateTime)reader["Date"];
                     int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+                    Membership membership = null;
+                    if (MembershipId == 1)
+                    {
+                        membership = MembershipStatus[MembershipId];
+                    }
+                    else if (MembershipId == 2)
+                    {
+                        membership = MembershipStatus[MembershipId];
+                    }
 
-                    member = new Member(MemberId, Name, Email, PhoneNumber, Date, MembershipId);
+                    else
+                    {
+                        throw new Exception(MemberId + "Has a MembershipId that is not valid");
+                    }
+
+                    member = new Member(MemberId, Name, Email, PhoneNumber, Date, membership);
+
                 }
                 connection.Close();
 
