@@ -26,7 +26,7 @@ namespace Nitrilon.DataAccess
                     member.PhoneNumber = null;
                 }
 
-                string sql = $"INSERT INTO Members (Name,PhoneNumber,Email,MembershipId) VALUES('{member.Name}', '{member.PhoneNumber}', '{member.Email}', {member.Membership}); SELECT SCOPE_IDENTITY();";
+                string sql = $"INSERT INTO Members (Name,PhoneNumber,Email,Date,MembershipId) VALUES('{member.Name}', '{member.PhoneNumber}', '{member.Email}', '{DateTime.Now.ToString("yyyy-MM-dd")}' ,{member.Membership.MembershipId}); SELECT SCOPE_IDENTITY();";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);
