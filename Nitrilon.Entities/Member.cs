@@ -13,7 +13,6 @@ namespace Nitrilon.Entities
         private string phoneNumber;
         private string email;
         private DateTime date;
-        //this is giving problems for me as the database is a int and not a object
         private Membership membership;
 
         public Member(int memberId, string name, string phoneNumber, string email, DateTime date, Membership membership)

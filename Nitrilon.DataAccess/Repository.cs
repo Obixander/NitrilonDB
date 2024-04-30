@@ -114,7 +114,7 @@ namespace Nitrilon.DataAccess
                             throw new Exception("MemberId: "+ MemberId + " Has a MembershipId that is not valid");
                         }
 
-                        Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, membership);
+                        Member member = new Member(MemberId, Name, PhoneNumber, Email, Date, membership);
                         members.Add(member);
                     }
                 }
