@@ -82,40 +82,37 @@ namespace Nitrilon.DataAccess
                     MembershipStatus.Add(new Membership(MembershipId, MembershipName, MembershipDescription));
                 }
                 if (reader.NextResult())
-                { 
+                {
                     while (reader.Read())
                     {
-
-
+                        int MembershipId = Convert.ToInt32(reader["MembershipId"]);
                         int MemberId = Convert.ToInt32(reader["MemberId"]);
                         string Name = reader["Name"].ToString();
                         string Email = reader["Email"].ToString();
                         string PhoneNumber = reader["PhoneNumber"].ToString();
                         DateTime Date = (DateTime)reader["Date"];
-                        int MembershipId = Convert.ToInt32(reader["MembershipId"]);
                         Membership membership = null;
-                        //This is a Active account
-                        if (MembershipId == 1)
+                        if (MembershipId != 1001)
                         {
-                            membership = MembershipStatus[0];
-                        }
-                        //this is a passive account
-                        else if (MembershipId == 2)
-                        {
-                            membership = MembershipStatus[1];
-                        }
-                        //This is Deactived account
-                        else if (MembershipId == -1)
-                        {
-                            membership = MembershipStatus[2];
-                        }
-                        else
-                        {
-                            throw new Exception("MemberId: "+ MemberId + " Has a MembershipId that is not valid");
+                            //This is a Active account
+                            if (MembershipId == 1)
+                            {
+                                membership = MembershipStatus[0];
+                            }
+                            //this is a passive account
+                            else if (MembershipId == 2)
+                            {
+                                membership = MembershipStatus[1];
+                            }
+                            else
+                            {
+                                throw new Exception("MemberId: " + MemberId + " Has a MembershipId that is not valid");
+                            }
+
+                            Member member = new Member(MemberId, Name, PhoneNumber, Email, Date, membership);
+                            members.Add(member);
                         }
 
-                        Member member = new Member(MemberId, Name, PhoneNumber, Email, Date, membership);
-                        members.Add(member);
                     }
                 }
 
