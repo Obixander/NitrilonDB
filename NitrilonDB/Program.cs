@@ -15,7 +15,7 @@ namespace NitrilonDB
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://127.0.0.1:5500/")
+                                      policy.WithOrigins("http://127.0.0.1:5500/", "https://noah62941.aspitcloud.dk/NitrilonMembers/Viewmembers.html")
                                       .AllowAnyOrigin()
                                       .AllowAnyHeader()
                                       .AllowAnyMethod();
