@@ -201,7 +201,7 @@ namespace Nitrilon.DataAccess
         {
             try
             {
-                string sql = $"UPDATE Members SET Name = '{member.Name}', PhoneNumber = '{member.PhoneNumber}', Email = '{member.Email}',Date = '{member.Date.ToString("yyyy-MM-dd")}', MembershipId = {member.Membership} WHERE MemberId = {id}";
+                string sql = $"UPDATE Members SET Name = '{member.Name}', PhoneNumber = '{member.PhoneNumber}', Email = '{member.Email}',Date = '{DateTime.Now.ToString("yyyy-MM-dd")}', MembershipId = {member.Membership.MembershipId} WHERE MemberId = {id}";
 
                 //1: make a sqlConnection Object:
                 SqlConnection connection = new SqlConnection(connectionString);

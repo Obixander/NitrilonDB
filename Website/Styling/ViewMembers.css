@@ -131,6 +131,7 @@ form {
    top: 0;
    left: 50%;
    transform: translate(-50%, 0);
+   z-index: 10;
 }
 form label {
    color: whitesmoke;
@@ -198,4 +199,19 @@ form input{
 }
 .Hidden {
    display: none;
+}
+
+.Exit {
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 2rem;
+   height: 2rem;
+   color: white;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   cursor: pointer;
+   font-size: 25px;
 }
