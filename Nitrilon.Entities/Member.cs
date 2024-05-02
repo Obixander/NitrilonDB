@@ -15,7 +15,7 @@ namespace Nitrilon.Entities
         private DateTime date;
         private Membership membership;
 
-        public Member(int memberId, string name, string phoneNumber, string email, DateTime date, Membership membership)
+        public Member(int memberId, string name, string email, string phoneNumber, DateTime date, Membership membership)
         {
             MemberId = memberId;
             Name = name;

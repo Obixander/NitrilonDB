@@ -86,14 +86,16 @@ namespace Nitrilon.DataAccess
                     while (reader.Read())
                     {
                         int MembershipId = Convert.ToInt32(reader["MembershipId"]);
-                        int MemberId = Convert.ToInt32(reader["MemberId"]);
-                        string Name = reader["Name"].ToString();
-                        string Email = reader["Email"].ToString();
-                        string PhoneNumber = reader["PhoneNumber"].ToString();
-                        DateTime Date = (DateTime)reader["Date"];
-                        Membership membership = null;
-                        if (MembershipId != 1001)
+                        //this prevents it from creating members that are deactived
+                        //TODO: Find a better way then hard coding "4"!
+                        if (MembershipId != 4)
                         {
+                            int MemberId = Convert.ToInt32(reader["MemberId"]);
+                            string Name = reader["Name"].ToString();
+                            string Email = reader["Email"].ToString();
+                            string PhoneNumber = reader["PhoneNumber"].ToString();
+                            DateTime Date = (DateTime)reader["Date"];
+                            Membership membership = null;
                             //This is a Active account
                             if (MembershipId == 1)
                             {

@@ -91,7 +91,8 @@ function GetEvents() {
 function Search(SearchQuery) {
    let FilteredArray = MembersArray.filter(Member => {
       let Membership = Member.membership;
-      return Member.name.toLowerCase().includes(SearchQuery.toLowerCase()) ||
+
+      return Member.name.toLowerCase().includes(SearchQuery.toLowerCase()) ||      
          Member.email.toLowerCase().includes(SearchQuery.toLowerCase()) ||
          Member.phoneNumber.toLowerCase().includes(SearchQuery.toLowerCase()) ||
          Membership.name.toLowerCase().includes(SearchQuery.toLowerCase()) ||
@@ -101,7 +102,7 @@ function Search(SearchQuery) {
    MemberContainer.innerHTML = "";
    FilteredArray.forEach(Member => {
       let Membership = Member.membership;
-      if (Member != " " && Membership.membershipId != 4) {
+      if (Member != " ") {
          let MemberCardContainer = document.createElement('div');
          MemberCardContainer.classList.add("MemberCardContainer")
          MemberContainer.appendChild(MemberCardContainer);
