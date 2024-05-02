@@ -91,6 +91,7 @@ function AddMember() {
    PhoneNumber.value = "";
 
    let Submit = document.querySelector("#Submit");
+   Submit.innerHTML = "Add New Member"
    state = 1;
    Submit.addEventListener('click', function (OnClick) {
       OnClick.preventDefault()
