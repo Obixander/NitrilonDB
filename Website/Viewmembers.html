@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,13 @@
    <link rel="stylesheet" href="./Styling/ViewMembers.css">
    <script src="./Javascript/ViewMembers.js" defer></script>
 </head>
+
 <body>
    <main>
-
       <section class="Search">
+         <div id="Btn">
+           <p>New Member</p>
+         </div>
          <input type="text" placeholder="" id="search">
          <select name="Filter" id="SearchFilter">
             <option value="Name">Name</option>
@@ -19,16 +23,36 @@
             <option value="Date">Date</option>
             <option value="Membership">Membership</option>
          </select>
-         
+
       </section>
-      
+
 
       <section class="MemberContainer">
 
       </section>
-      
 
+      <section class="AddMember">
+         <form action="post">
+            <label for="FirstName">Name</label>
+            <input type="text" id="Name" name="FirstName" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="Email" name="email">
+
+            <label for="PhoneNumber">Phone Number</label>
+            <input type="tel" id="PhoneNumber" name="PhoneNumber">
+            
+            <label for="Membership">Membership</label>
+            <select name="Membership" id="SelectMembership">
+               
+            </select>
+
+            <button id="Submit" type="submit">Join</button>
+        </form>
+
+      </section>
 
    </main>
 </body>
+
 </html>

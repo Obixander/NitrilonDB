@@ -111,7 +111,7 @@ namespace Nitrilon.DataAccess
                                 throw new Exception("MemberId: " + MemberId + " Has a MembershipId that is not valid");
                             }
 
-                            Member member = new Member(MemberId, Name, PhoneNumber, Email, Date, membership);
+                            Member member = new Member(MemberId, Name, Email, PhoneNumber, Date, membership);
                             members.Add(member);
                         }
 
@@ -223,8 +223,70 @@ namespace Nitrilon.DataAccess
             }
         }
 
+        public List<Membership> GetMemberships()
+        {
+            try
+            {
+                string sql = "SELECT * FROM Memberships";
 
+                //1: make a sqlConnection Object:
+                SqlConnection connection = new SqlConnection(connectionString);
 
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+
+                connection.Open();
+
+                //4. Execute the select Command and get the newly created id for the row
+                SqlDataReader reader = command.ExecuteReader();
+                List<Membership> MembershipStatus = new List<Membership>();
+                while (reader.Read())
+                {
+                    int MembershipId = Convert.ToInt32(reader["MembershipId"]);
+                    string MembershipName = reader["Name"].ToString();
+                    string MembershipDescription = reader["Description"].ToString();
+
+                    MembershipStatus.Add(new Membership(MembershipId, MembershipName, MembershipDescription));
+                }
+
+                connection.Close();
+
+                return MembershipStatus;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string Remove(int id)
+        {
+            try
+            {
+                string sql = $"DELETE FROM Members WHERE memberId = {id}";
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //2. Make a SqlCommand object:
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //3. Open the connection:
+                connection.Open();
+
+                //4. Execute the insert Command and get the newly created id for the row
+                command.ExecuteNonQuery();
+
+                connection.Close();
+
+                return "Success";
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
+        }
 
 
         //Methods for EventRatingController

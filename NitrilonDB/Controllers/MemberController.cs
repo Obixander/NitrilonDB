@@ -9,6 +9,25 @@ namespace NitrilonDB.Controllers
     [ApiController]
     public class MemberController : ControllerBase
     {
+
+
+        [HttpDelete("{id}")]
+        public IActionResult RemoveMember(int id)
+        {
+            try
+            {
+                Repository repo = new();
+                repo.Remove(id);
+               return Ok("Success");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+
+
         [HttpPost]
         public IActionResult AddMember(Member member)
         {
