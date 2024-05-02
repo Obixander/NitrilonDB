@@ -253,6 +253,8 @@ function GetEvents() {
 }
 
 function Search(SearchQuery) {
+   console.log(FilterSearch.value)
+   
    let FilteredArray = MembersArray.filter(Member => {
       let Membership = Member.membership;
       let FilterMatch = FilterSearch.value
@@ -267,12 +269,12 @@ function Search(SearchQuery) {
             return Member.phoneNumber.toLowerCase().includes(SearchQuery.toLowerCase())
             break;
          case "Date":
-            (Member.date).substring(0, 10).toLowerCase().includes(SearchQuery.toLowerCase());
+            return (Member.date).substring(0, 10).toLowerCase().includes(SearchQuery.toLowerCase());
             break;
          default:
             console.log("Error has happend seek help")
             break;
-               }
+         }
       
       
       
