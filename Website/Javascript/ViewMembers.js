@@ -83,6 +83,13 @@ function AddMember() {
       MembershipInput.appendChild(Option);
    });
 
+   let Name = document.querySelector("#Name");
+   let Email = document.querySelector("#Email");
+   let PhoneNumber = document.querySelector("#PhoneNumber");
+   Name.value = "";
+   Email.value = "";
+   PhoneNumber.value = "";
+
    let Submit = document.querySelector("#Submit");
    state = 1;
    Submit.addEventListener('click', function (OnClick) {
@@ -100,6 +107,8 @@ function SaveMember() {
    let Email = document.querySelector("#Email");
    let PhoneNumber = document.querySelector("#PhoneNumber");
    let Membership = document.querySelector("#SelectMembership");
+
+   
    console.log(Membership.value)
 
    let requestOptions = {};
@@ -381,11 +390,20 @@ function EditUser(Member) {
 
    state = 2;
    Id = Member.memberId;
+
+
    Submit.addEventListener('click', function (OnClick) {
       OnClick.preventDefault()
       SaveMember();
    });
 
+   
+   Name.textContent = "";
+   Email.textContent = "";
+   PhoneNumber.textContent = "";
+   
+   console.log(Name.textContent + Email.textContent)
+   
 
    //testing ends  
 }
