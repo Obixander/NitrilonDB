@@ -281,7 +281,10 @@ function Search(SearchQuery) {
          case "Date":
             return (Member.date).substring(0, 10).toLowerCase().includes(SearchQuery.toLowerCase());
             break;
+         case "Membership":
+            return Member.membership.name.toLowerCase().includes(SearchQuery.toLowerCase());
          default:
+            console.log(Member)
             console.log("Error has happend seek help")
             break;
          }
