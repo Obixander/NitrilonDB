@@ -95,15 +95,12 @@ function AddMember() {
    state = 1;
    Submit.addEventListener('click', function (OnClick) {
       OnClick.preventDefault()
-      SaveMember();
+      SaveRoute();
    });
-
-
-
-
 }
 
-function SaveMember() {
+
+function SaveRoute() {
    let Name = document.querySelector("#Name");
    let Email = document.querySelector("#Email");
    let PhoneNumber = document.querySelector("#PhoneNumber");
@@ -154,7 +151,13 @@ function SaveMember() {
          })
       }
    }
-   console.log(Url, requestOptions)
+   console.log(Url)
+   SaveMember(Url, requestOptions);
+}
+
+
+function SaveMember(Url,requestOptions) {
+   
    fetch(Url, requestOptions)
       .then(response => {
          if (!response.ok) {
@@ -393,21 +396,18 @@ function EditUser(Member) {
    Submit.innerHTML = "Change Member";
 
    state = 2;
+   console.log(state)
    Id = Member.memberId;
-
 
    Submit.addEventListener('click', function (OnClick) {
       OnClick.preventDefault()
-      SaveMember();
+      SaveRoute();
    });
 
    
    Name.textContent = "";
    Email.textContent = "";
-   PhoneNumber.textContent = "";
-   
-   console.log(Name.textContent + Email.textContent)
-   
+   PhoneNumber.textContent = "";  
 
    //testing ends  
 }
