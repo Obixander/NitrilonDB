@@ -20,7 +20,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                EventRepository repo = new();
                 List<Event> events = repo.GetActiveOrFutureEvents();
                 return Ok(events);
             }
@@ -38,7 +38,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                EventRepository repo = new();
                 return Ok(repo.Delete(id));
             }
             catch (Exception e)
@@ -53,7 +53,7 @@ namespace NitrilonDB.Controllers
         {            
             try
             {
-                Repository repo = new();
+                EventRepository repo = new();
                 repo.UpdateEvent(eventToUpdate, id);
             }
             catch (Exception e)
@@ -70,7 +70,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                EventRepository repo = new();
                 List<Event> events = repo.GetAllEvents();
                 return Ok(events);
             }
@@ -102,6 +102,8 @@ namespace NitrilonDB.Controllers
         {
             try
             {
+                EventRepository repo = new();
+
                 //Change this from the default values to the stored procedure
                 int badRatingCount = 0;
                 int neutralRatingCount = 0;
@@ -109,6 +111,7 @@ namespace NitrilonDB.Controllers
 
 
                 EventRatingData rating = new EventRatingData(badRatingCount, neutralRatingCount, goodRatingCount);
+
                 int id = newEvent.Id;
                 DateTime date = newEvent.Date;
                 string name = newEvent.Name;
@@ -116,13 +119,12 @@ namespace NitrilonDB.Controllers
                 string description = newEvent.Description;
                 Event e = new Event(id, date, name, attendees, description, rating);
                 Console.WriteLine("test");
-                Repository repo = new();
                 int CreatedId = repo.Save(e);
                 return Ok(CreatedId);
             }
             catch (Exception e)
             {
-                return NotFound("error");
+                return NotFound(e);
             }
         }
 

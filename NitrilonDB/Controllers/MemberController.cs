@@ -16,7 +16,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                MemberRepository repo = new();
                 repo.Remove(id);
                return Ok("Success");
             }
@@ -33,7 +33,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new Repository();
+                MemberRepository repo = new MemberRepository();
                 int newId = repo.Add(member);
                 return Ok(newId);
             }
@@ -48,7 +48,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new Repository();
+                MemberRepository repo = new MemberRepository();
                 List<Member> members = repo.GetAllMembers();
                 return Ok(members);
             }
@@ -64,7 +64,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new Repository();
+                MemberRepository repo = new MemberRepository();
                 Member member = repo.GetMemberById(id);
                 return Ok(member);
             }
@@ -79,7 +79,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new Repository();
+                MemberRepository repo = new MemberRepository();
                 repo.Update(id, member);
                 return Ok("Member updated successfully");
             }

@@ -22,7 +22,7 @@ namespace NitrilonDB.Controllers
         [HttpGet("{id}")]
         public ActionResult<EventRating> Get(int id)
         {
-            Repository repo = new();
+            EventRepository repo = new();
             List<EventRating> Ratings = repo.GetAllRatings();
             List<EventRating> ReturnList = new();
             foreach (EventRating ev in Ratings)
@@ -40,7 +40,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                EventRepository repo = new();
                 int CreatedId = repo.SaveRating(newRating);
                 return Ok(CreatedId);
             }
@@ -53,7 +53,7 @@ namespace NitrilonDB.Controllers
         [HttpGet]
         public ActionResult<EventRatingData> GetEventRatingDataFor(int eventId)
         {
-            Repository repository = new();
+            EventRepository repository = new();
             EventRatingData eventRatingData = repository.GetEventRatingDataBy(eventId);
             return Ok(eventRatingData);
         }
