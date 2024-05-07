@@ -123,7 +123,7 @@ namespace Nitrilon.DataAccess
             {
                 Member member = null;
 
-                string sql = $"SELECT * FROM Membership; SELECT * FROM Members WHERE MemberId = {id};";
+                string sql = $"SELECT * FROM Memberships; SELECT * FROM Members WHERE MemberId = {id};";
 
                 
                 SqlDataReader reader = Execute(sql);
