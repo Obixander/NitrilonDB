@@ -194,7 +194,9 @@ form input{
 .Option:hover {
    cursor: pointer;
 }
-
+form select {
+   height: 2.5rem;
+}
 .Active {
    display: flex;
    position: absolute;
