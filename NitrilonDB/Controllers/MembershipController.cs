@@ -15,7 +15,7 @@ namespace NitrilonDB.Controllers
         {
             try
             {
-                Repository repo = new();
+                MemberRepository repo = new();
                 List<Membership> memberships = repo.GetMemberships();
                 return Ok(memberships);
             }
